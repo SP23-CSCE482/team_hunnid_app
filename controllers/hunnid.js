@@ -38,34 +38,33 @@ const insertOneHunnid = (req, res, next) => {
 
 //POST '/hunnid/createMany'
 const insertManyHunnid = (req, res, next) => {
-    for (let elem in req.body) {
-        //check if the hunnid _username already exists in db
-        Hunnid.findOne({ username: elem.username }, (err, data) => {
-            //if username not in db, add the object
-            if (!data) {
-                //create a new hunnid object using the Hunnid model and req.body
-                const newHunnid = new Hunnid({
-                    username: elem.username,
-                    password: elem.password,
-                })
-                // save this object to database
-                newHunnid.save((err, data) => {
-                    if (err) {
-                        console.log(data.username);
-                        return res.json({ Error: err });
-                    }
-                    return res.json(data);
-                })
-                //if there's an error or the hunnid is in db, return a message         
-            } else {
+
+    //check if the hunnid _username already exists in db
+    Hunnid.findOne({ username: req.body.username }, (err, data) => {
+        //if username not in db, add the object
+        if (!data) {
+            //create a new hunnid object using the Hunnid model and req.body
+            const newHunnid = new Hunnid({
+                username: req.body.username,
+                password: req.body.password,
+            })
+            // save this object to database
+            newHunnid.save((err, data) => {
                 if (err) {
-                    return res.json({ Error: err });
-                    //return res.json(`insertOneHunnid function Error outsideElse :  ${err}`);
+                    console.log(data.username);
+                    return res.json(`insertOneHunnid function Error insideElse :  ${err}`);
                 }
-                return res.json({ message: "Username already exists for this User" });
+                return res.json(data);
+            })
+
+            //if there's an error or the hunnid is in db, return a message         
+        } else {
+            if (err) {
+                return res.json(`insertOneHunnid function Error outsideElse :  ${err}`);
             }
-        })
-    }
+            return res.json({ message: "Username already exists" });
+        }
+    })
 };
 
 
