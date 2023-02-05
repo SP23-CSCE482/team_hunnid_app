@@ -110,21 +110,38 @@ const findManyHunnid = (req, res, next) => {
 
 //Post '/hunnid/updateOne/:id'
 const updateOneHunnid = (req, res, next) => {
-    
+    Hunnid.updateOne({ username: req.param.id }, req.body, (err, data) => {
+        if (err) {
+            return res.json({ Error: err });
+        }
+        console.log("Matched count: " + data.matchedCount + " Modified Count: " + data.modifiedCount);
+        return res.json(data.acknowledged);
+    })
 }
 
 
 
-
+//POST '/hunnid/updateMany/:field'
+const updateManyHunnid = (req, res, next) => {
+    let passwordsToReplace = req.params.field
+    Hunnid.updateMany({ password: passwordsToReplace }, req.body, (err, data) => {
+        if (err) {
+            return res.json({ Error: err });
+        }
+        console.log("Matched count: " + data.matchedCount + " Modified Count: " + data.modifiedCount);
+        return res.json(data.acknowledged);
+    })
+};
 
 //POST '/hunnid/replaceOne/:id'
 const replaceOneHunnid = (req, res, next) => {
-    let accountToReplace = req.params.id;
-    Hunnid.find({ username: accountToReplace }, (err, data) => {
-        if (err || !data) {
+    let accountToReplace = req.params.id
+    Hunnid.replaceOne({ username: accountToReplace }, replacement, (err, data) => {
+        if (err) {
             return res.json({ Error: err });
         }
-        return res.json(data);
+        console.log("Matched count: " + data.matchedCount + " Modified Count: " + data.modifiedCount);
+        return res.json(data.acknowledged);
     })
 };
 
@@ -139,10 +156,10 @@ const deleteOneHunnid = (req, res, next) => {
         if (err) {
             return res.json({ Error: err });
         }
-        return res.json({message : "Deleted "+ data +" documents within deleteOneHunnid"});
+        return res.json({ message: "Deleted " + data + " documents within deleteOneHunnid" });
     })
 
-    
+
 };
 
 //DELETE '/hunnid/deleteMany/:field'
@@ -152,7 +169,7 @@ const deleteManyHunnid = (req, res, next) => {
         if (err) {
             return res.json({ Error: err });
         }
-        return res.json({message : "Deleted "+ data +" documents within deleteManyHunnid"});
+        return res.json({ message: "Deleted " + data + " documents within deleteManyHunnid" });
     })
 };
 
