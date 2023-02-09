@@ -1,9 +1,47 @@
 # Configuration file for MegaLinter
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 
-APPLY_FIXES: all # all, none, or list of linter keys
-# ENABLE: # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
-# ENABLE_LINTERS: # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
+APPLY_FIXES: none # all, none, or list of linter keys
+ENABLE: # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
+  - ENV_DOTENV_LINTER
+  - GRAPHQL_GRAPHQL_SHEMA_LINTER
+  - JSON_JSONLINT
+  - JSON_ESLINT_PLUGIN_JSONC
+  - JSON_V8R
+  - JSON_PRETTIER
+  - JSON_NPM_PACKAGE_JSON_LINT
+  - LATEX_CHKTEX
+  - YAML_PRETTIER
+  - YAML_YAMLLINT
+  - YAML_V8R
+  - DOCKERFILE_HADOLINT
+  - OPENAPI_SPECTRAL
+  - TEKTON_TEKTON_LINT
+ENABLE_LINTERS: # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
+  - BASH_EXEC
+  - BASH_SHELLCHECK
+  - BASH_SHFMT
+  - JAVASCRIPT_ES
+  - JAVASCRIPT_STANDARD
+  - JAVASCRIPT_PRETTIER
+  - JSX_ELINT
+  - MAKEFILE_CHECKMAKE
+  - POWERSHELL_POWERSHELL
+  - POWERSHELL_POWERSHELL_FORMATTER
+  - PYTHON_PYLINT
+  - PYTHON_BLACK
+  - PYTHON_FLAKE8
+  - PYTHON_ISORT
+  - PYTHON_BANDIT
+  - PYTHON_MYPY
+  - PYTHON_PYRIGHT
+  - SQL_SQL_LINT
+  - SQL_SQLFLUFF
+  - SQL_TSQLLINT
+  - TSX_ESLINT
+  - TYPESCRIPT_ES
+  - TYPESCRIPT_STANDARD
+  - TYPESCRIPT_PRETTIER
 DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
   - SPELL # Uncomment to disable checks of spelling mistakes
