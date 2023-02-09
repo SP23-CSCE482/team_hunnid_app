@@ -1,11 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from './logo.svg'
+import './App.css'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>Welcome to AI Personalized Learning</h2>
+        <button type="button" class="btn-lg btn-light">
+          Welcome to AI Personalized Learning
+        </button>
       </header>
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -22,7 +24,7 @@ function App() {
         </a>
       </header> */}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
