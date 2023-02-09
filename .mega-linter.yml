@@ -35,5 +35,5 @@ SHOW_ELAPSED_TIME: true
 FILEIO_REPORTER: true
 DISABLE_ERRORS: true # Uncomment if you want MegaLinter to detect errors but not block CI to pass
 POST_COMMANDS:
-  - command: npm start
+  - command: npm run build
 FILTER_REGEX_EXCLUDE: (/src)
