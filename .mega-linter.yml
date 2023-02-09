@@ -2,13 +2,20 @@
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 
 APPLY_FIXES: all # all, none, or list of linter keys
-ENABLE: JSON, YAML # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
+ENABLE: # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
+  - JSON
+  - YAML
   - ENV_DOTENV_LINTER
   - GRAPHQL_GRAPHQL_SHEMA_LINTER
   - DOCKERFILE_HADOLINT
   - OPENAPI_SPECTRAL
   - TEKTON_TEKTON_LINT
-ENABLE_LINTERS: BASH, JAVASCRIPT, PYHTON, SQL, TYPESCRIPT # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
+ENABLE_LINTERS:  # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
+  - BASH
+  - JAVASCRIPT
+  - PYTHON
+  - SQL
+  - TYPESCRIPT
   - JSX_ELINT
   - MAKEFILE_CHECKMAKE
   - POWERSHELL_POWERSHELL
