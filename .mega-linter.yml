@@ -2,25 +2,32 @@
 # See all available variables at https://megalinter.io/configuration/ and in linters documentation
 
 APPLY_FIXES: all # all, none, or list of linter keys
-ENABLE: # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
-  - JSON
-  - YAML
-  - ENV_DOTENV_LINTER
-  - GRAPHQL_GRAPHQL_SHEMA_LINTER
-  - DOCKERFILE_HADOLINT
-  - OPENAPI_SPECTRAL
-  - TEKTON_TEKTON_LINT
+ENABLE: JSON, YAML # If you use ENABLE variable, all other languages/formats/tooling-formats will be disabled by default
 ENABLE_LINTERS:  # If you use ENABLE_LINTERS variable, all other linters will be disabled by default
-  - BASH
-  - JAVASCRIPT
-  - PYTHON
-  - SQL
-  - TYPESCRIPT
+  - BASH_EXEC
+  - BASH_SHELLCHECK
+  - BASH_SHFMT
+  - JAVASCRIPT_ES
+  - JAVASCRIPT_STANDARD
+  - JAVASCRIPT_PRETTIER
   - JSX_ELINT
   - MAKEFILE_CHECKMAKE
   - POWERSHELL_POWERSHELL
   - POWERSHELL_POWERSHELL_FORMATTER
+  - PYTHON_PYLINT
+  - PYTHON_BLACK
+  - PYTHON_FLAKE8
+  - PYTHON_ISORT
+  - PYTHON_BANDIT
+  - PYTHON_MYPY
+  - PYTHON_PYRIGHT
+  - SQL_SQL_LINT
+  - SQL_SQLFLUFF
+  - SQL_TSQLLINT
   - TSX_ESLINT
+  - TYPESCRIPT_ES
+  - TYPESCRIPT_STANDARD
+  - TYPESCRIPT_PRETTIER
 DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
   - SPELL # Uncomment to disable checks of spelling mistakes
