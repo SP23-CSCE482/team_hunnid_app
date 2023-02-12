@@ -15,7 +15,9 @@ const Home = () =>{
                 <Button variant="contained" onClick={navigateLogin}>
                     Login
                 </Button>
-            </div> 
+                
+            </div>
+
         </div>
     );
 }
