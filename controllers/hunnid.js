@@ -75,7 +75,7 @@ const insertManyHunnid = (req, res, next) => {
 
 //GET '/hunnid/findOne/:id'
 const findOneHunnid = (req, res, next) => {
-    let usernameToSearch = req.params._id;
+    let usernameToSearch = req.params.id;
     Hunnid.findOne({ username: usernameToSearch }, (err, data) => {
         if (err || !data) {
             return res.json({ Error: err });
@@ -86,7 +86,8 @@ const findOneHunnid = (req, res, next) => {
 
 //GET '/hunnid/findMany/:field'
 const findManyHunnid = (req, res, next) => {
-    Hunnid.find({ username: usernameToSearch }, (err, data) => {
+    let passwordToSearch = req.params.field;
+    Hunnid.find({ password: passwordToSearch }, (err, data) => {
         if (err || !data) {
             return res.json({ Error: err });
         }
@@ -109,12 +110,15 @@ const findManyHunnid = (req, res, next) => {
 
 //Post '/hunnid/updateOne/:id'
 const updateOneHunnid = (req, res, next) => {
-    Hunnid.updateOne({ username: req.param.id }, req.body, (err, data) => {
+    let userNameToUpdate = req.params.id;
+    Hunnid.updateOne({ username: userNameToUpdate }, req.body, (err, data) => {
         if (err) {
             return res.json({ Error: err });
         }
+        console.log(usernameToSearch);
+        console.log(req.body);
         console.log("Matched count: " + data.matchedCount + " Modified Count: " + data.modifiedCount);
-        return res.json(data.acknowledged);
+        return res.json(data);
     })
 }
 
@@ -128,19 +132,19 @@ const updateManyHunnid = (req, res, next) => {
             return res.json({ Error: err });
         }
         console.log("Matched count: " + data.matchedCount + " Modified Count: " + data.modifiedCount);
-        return res.json(data.acknowledged);
+        return res.json(data);
     })
 };
 
 //POST '/hunnid/replaceOne/:id'
 const replaceOneHunnid = (req, res, next) => {
     let accountToReplace = req.params.id
-    Hunnid.replaceOne({ username: accountToReplace }, replacement, (err, data) => {
+    Hunnid.replaceOne({ username: accountToReplace }, req.body, (err, data) => {
         if (err) {
             return res.json({ Error: err });
         }
         console.log("Matched count: " + data.matchedCount + " Modified Count: " + data.modifiedCount);
-        return res.json(data.acknowledged);
+        return res.json(data);
     })
 };
 
@@ -155,7 +159,7 @@ const deleteOneHunnid = (req, res, next) => {
         if (err) {
             return res.json({ Error: err });
         }
-        return res.json({ message: "Deleted " + data + " documents within deleteOneHunnid" });
+        return res.json({ message: "Deleted " + data.deletedCount + " documents within deleteOneHunnid" });
     })
 
 
@@ -168,7 +172,7 @@ const deleteManyHunnid = (req, res, next) => {
         if (err) {
             return res.json({ Error: err });
         }
-        return res.json({ message: "Deleted " + data + " documents within deleteManyHunnid" });
+        return res.json({ message: "Deleted " + data.deletedCount + " documents within deleteManyHunnid" });
     })
 };
 
