@@ -3,6 +3,7 @@ import LoginButton from './components/login'
 import LogoutButton from './components/logout'
 import { useEffect } from 'react'
 import { gapi } from 'gapi-script'
+import { useNavigate } from 'react-router-dom'
 import FileUpload from './components/upload'
 
 const clientId =
@@ -19,13 +20,22 @@ const Login = () => {
 
     gapi.load('client:auth2', start)
   })
+  const navigate = useNavigate()
+
+  const navigateSignup = () => {
+    navigate('/signup')
+  }
   return (
     <div className="Login-background">
       <div className="Login-header">
         <h2 class="text-white">Login</h2>
         <LoginButton></LoginButton>
         <LogoutButton></LogoutButton>
-        <button class="btn-white">Sign Out</button>
+
+        <button class="btn-white" onClick={navigateSignup}>
+          Sign Up
+        </button>
+
         <FileUpload/>
       </div>
     </div>
