@@ -8,9 +8,8 @@
   flex-direction: column;
   align-items: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.Login-background{
+.Login-background {
   background-color: #282c34;
 }
