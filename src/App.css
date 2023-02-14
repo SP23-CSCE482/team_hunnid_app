@@ -11,7 +11,15 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.Top-header {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
 
-.App-background{
+.App-background {
   background-color: #282c34;
 }
