@@ -3,6 +3,9 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require ('express');
 const hunnidRoutes = require('./routes/hunnid'); // import the routes
+const hunnidRoutes = require('./routes/loginRoute'); // import the routes
+const hunnidRoutes = require('./routes/questionsRoute'); // import the routes
+const hunnidRoutes = require('./routes/testbookRoute'); // import the routes
 const app = express();
 
 app.use(express.json());
