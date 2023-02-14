@@ -1,26 +1,34 @@
 import './Login.css'
-import { Button } from '@material-ui/core';
-import {useNavigate} from 'react-router-dom';
-const Login = () =>{
-    const navigate = useNavigate();
+import LoginButton from './components/login'
+import LogoutButton from './components/logout'
+import { useEffect } from 'react'
+import { gapi } from 'gapi-script'
+import FileUpload from './components/upload'
 
-    const navigateLogin = () => {
-        navigate('/userpage');
+const clientId =
+  '521713186873-do0pk7f1oi7sc6r127jr3v01h2uk2jmc.apps.googleusercontent.com'
+
+const Login = () => {
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: '',
+      })
     }
-    return (
-        <div className='Login-background'>
-            <div className='Login-header'>
-                <h2>Login</h2>
-                <Button variant="contained" onClick={navigateLogin}>
-                    Sign-In
-                </Button>
-                <br></br>
-                <Button variant="contained">
-                    Sign-Up
-                </Button>
-                
-            </div>
-        </div>
-    )
+
+    gapi.load('client:auth2', start)
+  })
+  return (
+    <div className="Login-background">
+      <div className="Login-header">
+        <h2 class="text-white">Login</h2>
+        <LoginButton></LoginButton>
+        <LogoutButton></LogoutButton>
+        <button class="btn-white">Sign Out</button>
+        <FileUpload/>
+      </div>
+    </div>
+  )
 }
-export default Login;
+export default Login

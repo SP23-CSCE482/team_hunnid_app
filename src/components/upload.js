@@ -8,7 +8,7 @@ function FileUpload() {
     return (
       <div className="FileUploadComp">
           <form onSubmit={handleUpload}>
-            <h1>Upload a file</h1>
+            <h1 class="text-white" >Upload a file</h1>
             <input type="file" />
             <Button variant="contained" type="submit">Upload</Button>
           </form>

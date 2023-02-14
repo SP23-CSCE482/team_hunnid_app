@@ -1,6 +1,6 @@
 import './UserPage.css'
 import { Button } from '@material-ui/core';
-import FileUpload from './component/Upload.js';
+import FileUpload from './components/upload.js';
 import {useNavigate} from 'react-router-dom';
 const Login = () =>{
     const navigate = useNavigate();
