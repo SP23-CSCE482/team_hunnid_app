@@ -3,6 +3,7 @@ import LoginButton from './components/login'
 import LogoutButton from './components/logout'
 import { useEffect } from 'react'
 import { gapi } from 'gapi-script'
+import FileUpload from './components/upload'
 
 const clientId =
   '521713186873-do0pk7f1oi7sc6r127jr3v01h2uk2jmc.apps.googleusercontent.com'
@@ -25,6 +26,7 @@ const Login = () => {
         <LoginButton></LoginButton>
         <LogoutButton></LogoutButton>
         <button class="btn-white">Sign Out</button>
+        <FileUpload/>
       </div>
     </div>
   )
