@@ -10,12 +10,11 @@ const Home = () => {
   }
   return (
     <div className="App-background">
-      <div class="d-flex flex-row-reverse">
-        <div class="p-2">
+      <div className="d-flex flex-row-reverse">
+        <div className="p-2">
           <button
             type="button"
-            class="btn btn-light"
-            variant="contained"
+            className="btn btn-light"
             onClick={navigateLogin}
           >
             Login
@@ -25,7 +24,7 @@ const Home = () => {
 
       <div className="App-header">
         <h2>Welcome to AI Personalized Learning</h2>
-        <button type="button" class="btn btn-light" onClick={navigateLogin}>
+        <button type="button" className="btn btn-light" onClick={navigateLogin}>
           Login
         </button>
       </div>

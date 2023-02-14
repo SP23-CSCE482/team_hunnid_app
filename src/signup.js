@@ -19,33 +19,33 @@ const Login = () => {
   return (
     <div className="Login-background">
       <div className="Login-header">
-        <h1 class="text-light">Sign up here!</h1>
+        <h1 className="text-light">Sign up here!</h1>
         <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1" class="text-light">
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1" className="text-light">
               Email address
             </label>
             <input
               type="email"
-              class="form-control"
+              className="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               placeholder="Enter email"
             />
           </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1" class="text-light">
+          <div className="form-group">
+            <label htmlFor="exampleInputPassword1" className="text-light">
               Password
             </label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
               placeholder="Password"
             />
           </div>
 
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" className="btn btn-primary">
             Submit
           </button>
         </form>
