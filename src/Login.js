@@ -14,6 +14,7 @@ const Login = () =>{
                 <Button variant="contained" onClick={navigateLogin}>
                     Sign-In
                 </Button>
+                <br></br>
                 <Button variant="contained">
                     Sign-Up
                 </Button>
