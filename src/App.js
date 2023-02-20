@@ -2,13 +2,9 @@ import './App.css'
 import jwt_decode from 'jwt-decode'
 import * as React from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Login from './Login'
 import Home from './Home'
-import Signup from './signup'
 import { useEffect, useState } from 'react'
 import UserContext from './components/user'
-import { Button } from '@material-ui/core'
-import Navigation from './components/navigation'
 
 function App() {
   const [user, setUser] = useState({})
@@ -59,8 +55,6 @@ function App() {
         )}
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/signup" element={<Signup />} />
         </Routes>
       </UserContext.Provider>
     </>
