@@ -28,15 +28,15 @@ const Login = () => {
   return (
     <div className="Login-background">
       <div className="Login-header">
-        <h2 class="text-white">Login</h2>
+        <h2 className="text-white">Login</h2>
         <LoginButton></LoginButton>
         <LogoutButton></LogoutButton>
 
-        <button class="btn-white" onClick={navigateSignup}>
+        <button className="btn-white" onClick={navigateSignup}>
           Sign Up
         </button>
 
-        <FileUpload/>
+        <FileUpload />
       </div>
     </div>
   )
