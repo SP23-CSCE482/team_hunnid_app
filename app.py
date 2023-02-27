@@ -3,10 +3,8 @@ from re import T
 from flask import Flask, redirect, url_for, render_template, jsonify, request, session, flash
 from flask_cors import CORS, cross_origin
 from datetime import timedelta
-import time
-import requests
-import json
 import pickle
+import json
 from sklearn.feature_extraction.text import CountVectorizer
 #from FirebaseHelper import pushStudent, getStudents, removeStudent, AddChat, getChats
 
@@ -35,9 +33,17 @@ def testing():
 @app.route("/getTagsFromQuestions", methods=["GET"])
 @cross_origin(supports_credentials=True)
 def getTagsFromQuestions():
-    tagFound = model.predict(count_vect.transform(["If a=<1,3> and b=<2,2>, find |3a-2b|"]))
-    print(tagFound)
-    return  jsonify({'tag': tagFound[0]})
+    my_json_string = json.dumps({'Question1': "If a=<1,3> and b=<2,2>, find |3a-2b|", 'Question2': "If a=<1,3> and b=<2,2>, find |3a-2b|"})
+    my_dict = json.loads(my_json_string)
+    print(my_dict)
+    tags = []
+    for key, value in my_dict.items():
+        print(value)
+        tagFound = model.predict(count_vect.transform([value]))
+        for i in range(tagFound.size):
+            print(tagFound[i])
+            tags.append(tagFound[i])
+    return  jsonify({'tags': tags})
 
 if __name__ == "__main__":
     app.run(debug=True)
