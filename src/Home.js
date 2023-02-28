@@ -8,12 +8,7 @@ function Home(props) {
   return (
     <div data-testid="home-1" className="App-background">
       <div data-testid="home-2" className="App-header">
-        {!isLoggedin && (
-          <h2 data-testid="welcome">
-            Welcome to AI Personalized Learning, please login using your google
-            account
-          </h2>
-        )}
+        {!isLoggedin && <h2 data-testid="welcome">{process.env.CHEESE}</h2>}
         {isLoggedin && (
           <h2 data-testid="welcomeUser">
             Welcome to AI Personalized Learning, {user.given_name}
