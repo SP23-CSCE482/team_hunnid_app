@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('dev'));
 
 
-app.post('/extract-pdf-text', async (req, res) => {
+app.post('/pdfToText', async (req, res) => {
     try {
         if (!req.files) {
             res.send({

@@ -1,13 +1,13 @@
 import React, {useRef} from "react";
-
+import PropTypes from 'prop-types';
 import "./pdf-upload.css";
 
-DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000
+
 
 const PdfUpload = ({
                         label,
                         updateFileCb,
-                        maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES,
+                        maxFileSizeInBytes = 500000,
                         ...otherProps
                     }) => {
     const fileInputField = useRef(null);
@@ -44,5 +44,10 @@ const PdfUpload = ({
         </div>
     )
 }
+PdfUpload.propTypes = {
+    label : PropTypes.any,
+    updateFileCb : PropTypes.any,
+    maxFileSizeInBytes : PropTypes.any,
+    };
 
 export default PdfUpload;
