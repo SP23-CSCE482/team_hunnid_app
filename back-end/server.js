@@ -15,6 +15,10 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(morgan('dev'));
 
 app.use(fileUpload({
     createParentPath: true,
@@ -23,11 +27,12 @@ app.use(fileUpload({
     },
 }));
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(morgan('dev'));
+app.get('/', (req, res) => {
 
+
+})
+
+app.listen(4000, () => console.log('Application listening on port 4000!'))
 
 app.post('/pdfToText', async (req, res) => {
     try {
@@ -37,6 +42,7 @@ app.post('/pdfToText', async (req, res) => {
                 message: 'No pdf uploaded'
             });
         } else {
+            
             let pdf = req.files.pdf;
             const filePath = `./uploads/${pdf.name}`;
             await pdf.mv(filePath);
@@ -50,6 +56,26 @@ app.post('/pdfToText', async (req, res) => {
                         }
                     });
                     console.log(textArray);
+                    
+                    try {
+                        console.log("Testing Child Process : ");
+
+                        const { spawn } = require('child_process');
+                        const pyProg = spawn('python', ['./modelQuery.py',textArray]);
+                    
+                        pyProg.stdout.on('data', function(data) {
+                    
+                            console.log(data.toString());
+                            console.log("Success Child Process : ", data);
+
+                        });
+
+
+                    } catch (err) {
+                        console.log("Failed Child Process : ", err)
+                    }
+
+
                     res.send({
                         status: true,
                         message: 'Pdf is uploaded',
