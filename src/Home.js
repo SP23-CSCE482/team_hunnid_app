@@ -5,8 +5,6 @@ import FileUpload from './components/upload'
 function Home(props) {
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
-  console.log(process.env.CHEESE)
-  console.log(process.env.GOOGLE_OAUTH_CLIENT_ID)
   return (
     <div data-testid="home-1" className="App-background">
       <div data-testid="home-2" className="App-header">
