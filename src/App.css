@@ -13,6 +13,7 @@
   color: white;
   background-color: #282c34;
 }
+
 .Top-header {
   display: flex;
   flex-direction: row-reverse;
@@ -26,6 +27,50 @@
   background-color: #282c34;
 }
 
+.App-component {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 50px;
+  height: 10px;
+  font-size: calc(10px + 2vmin);
+  color: #ffffff;
+  display: 'block';
+  flex-direction: row-reverse;
+  align-items: 'center';
+  justify-content: 'center';
+  background-color: #282c34;
+}
+
+
 .Text-background {
   color: white;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 0 0.5em;
+  display: block;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.upload-section {
+  flex: 20%;
+}
+
+.extracted-text-section {
+  flex: 10;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 2rem;
 }
