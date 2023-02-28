@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react'
 import UserContext from './components/user'
 
 function App(props) {
+  console.log(process.env.CHEESE)
+  console.log(process.env.GOOGLE_OAUTH_CLIENT_ID)
   const [user, setUser] = useState({})
   function handleSignOut(event) {
     setUser({}) // set user back to empty object

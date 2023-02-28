@@ -5,10 +5,14 @@ import FileUpload from './components/upload'
 function Home(props) {
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
+  console.log(process.env.CHEESE)
+  console.log(process.env.GOOGLE_OAUTH_CLIENT_ID)
   return (
     <div data-testid="home-1" className="App-background">
       <div data-testid="home-2" className="App-header">
-        {!isLoggedin && <h2 data-testid="welcome">{process.env.CHEESE}</h2>}
+        {!isLoggedin && (
+          <h2 data-testid="welcome">{process.env.GOOGLE_OAUTH_CLIENT_ID}</h2>
+        )}
         {isLoggedin && (
           <h2 data-testid="welcomeUser">
             Welcome to AI Personalized Learning, {user.given_name}
