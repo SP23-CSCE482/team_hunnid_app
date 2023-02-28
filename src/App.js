@@ -13,7 +13,7 @@ import PdfUpload from './components/pdfUpload'
 // Substitute with proper string according to api.
 const url = "http://localhost:3001/pdfToText";
 
-function App(props) {
+function App() {
   
   const [pdfText, setPdfText] = useState(null);
   const [user, setUser] = useState({})
