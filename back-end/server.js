@@ -3,6 +3,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require ('express');
 const hunnidRoutes = require('./routes/hunnid'); // import the routes
+const resourceRoutes = require('./routes/resource')
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -26,13 +27,6 @@ app.use(fileUpload({
         fileSize: 10 * 1024 * 1024 * 1024 //10MB max file size
     },
 }));
-
-app.get('/', (req, res) => {
-
-
-})
-
-app.listen(4000, () => console.log('Application listening on port 4000!'))
 
 app.post('/pdfToText', async (req, res) => {
     try {
@@ -65,8 +59,8 @@ app.post('/pdfToText', async (req, res) => {
                     
                         pyProg.stdout.on('data', function(data) {
                     
-                            console.log(data.toString());
-                            console.log("Success Child Process : ", data);
+                            //console.log(data.toString());
+                            console.log("Success Child Process : ", data.toString());
 
                         });
 
@@ -101,10 +95,11 @@ app.post('/pdfToText', async (req, res) => {
 
 
 app.use('/', hunnidRoutes); 
+app.use('/', resourceRoutes); 
 
 // database conn
 mongoose.connect(
-    process.env.MONGODB_URI,
+    MONGODB_URI = 'mongodb+srv://tempUser:03s7lkF0JNtn2YwX@cluster000.vlqdobt.mongodb.net/?retryWrites=true&w=majority',
     {useUnifiedTopology: true, useNewUrlParser: true},
     (err) => {
         if (err) return console.log("Error: ", err);
