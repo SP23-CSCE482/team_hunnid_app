@@ -5,12 +5,8 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './Home'
 import { useEffect, useState } from 'react'
 import UserContext from './components/user'
-import runtimeEnv from '@mars/heroku-js-runtime-env'
 
 function App(props) {
-  const env = runtimeEnv()
-  console.log(env.CHEESE)
-  console.log(env.GOOGLE_OAUTH_CLIENT_ID)
   const [user, setUser] = useState({})
   function handleSignOut(event) {
     setUser({}) // set user back to empty object
@@ -26,7 +22,7 @@ function App(props) {
   useEffect(() => {
     /* global google*/
     window.google.accounts.id.initialize({
-      client_id: env.GOOGLE_OAUTH_CLIENT_ID,
+      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
       callback: handleCallbackResponse,
     })
 
