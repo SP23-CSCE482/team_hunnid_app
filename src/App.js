@@ -6,7 +6,7 @@ import Home from './Home'
 import { useEffect, useState } from 'react'
 import UserContext from './components/user'
 
-function App() {
+function App(props) {
   const [user, setUser] = useState({})
   function handleSignOut(event) {
     setUser({}) // set user back to empty object
@@ -21,18 +21,20 @@ function App() {
   }
   useEffect(() => {
     /* global google*/
-    google.accounts.id.initialize({
-      client_id:
-        '521713186873-do0pk7f1oi7sc6r127jr3v01h2uk2jmc.apps.googleusercontent.com',
+    window.google.accounts.id.initialize({
+      client_id: process.env.GOOGLE_OAUTH_CLIENT_ID,
       callback: handleCallbackResponse,
     })
 
-    google.accounts.id.renderButton(document.getElementById('signInDiv'), {
-      theme: 'outline',
-      size: 'large',
-    })
+    window.google.accounts.id.renderButton(
+      document.getElementById('signInDiv'),
+      {
+        theme: 'outline',
+        size: 'large',
+      },
+    )
 
-    google.accounts.id.prompt()
+    window.google.accounts.id.prompt()
   }, [])
   //If there is no user, show sign in button, if user, show home page
   return (
@@ -41,7 +43,7 @@ function App() {
         <div id="signInDiv" className="App-background"></div>
 
         {Object.keys(user).length != 0 && ( // signed in
-          <div className="App-background">
+          <div className="App-background" data-testid="signedin">
             <button
               type="button"
               className="btn btn-light"
