@@ -9,7 +9,9 @@ function Home(props) {
     <div data-testid="home-1" className="App-background">
       <div data-testid="home-2" className="App-header">
         {!isLoggedin && (
-          <h2 data-testid="welcome">{process.env.GOOGLE_OAUTH_CLIENT_ID}</h2>
+          <h2 data-testid="welcome">
+            Welcome to AI Personalized Learning, please log in to get started!
+          </h2>
         )}
         {isLoggedin && (
           <h2 data-testid="welcomeUser">
