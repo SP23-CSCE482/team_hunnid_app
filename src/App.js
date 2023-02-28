@@ -10,12 +10,6 @@ import PdfUpload from './components/pdfUpload'
 
 //import styled from 'styled-components';
 
-
-// <div className="extracted-text-section">
-// {pdfText && pdfText.map((page, index) => <p key={index}>{page}</p>)}
-// </div>
-
-
 // Substitute with proper string according to api.
 const url = "http://localhost:3001/pdfToText";
 
@@ -104,7 +98,9 @@ function App() {
                     updateFileCb = {handleUploadedFile}
                   />
                 </div>
-
+                <div className="extracted-text-section">
+                  {pdfText && pdfText.map((page, index) => <p key={index}>{page}</p>)}
+                </div>
               </div>
             </div>
           </div>

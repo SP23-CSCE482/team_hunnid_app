@@ -49,6 +49,7 @@ app.post('/pdfToText', async (req, res) => {
                             console.error(error);
                         }
                     });
+                    console.log(textArray);
                     res.send({
                         status: true,
                         message: 'Pdf is uploaded',
