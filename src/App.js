@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import UserContext from './components/user'
 import Upload from './components/upload'
 import PdfUpload from './components/pdfUpload'
+import TextUpload from './components/textUpload'
 
 //import styled from 'styled-components';
 
@@ -84,6 +85,7 @@ function App() {
               </button>
               <h3 className="text-light ">{user.name}</h3>
               <img className="rounded" src={user.picture}></img>
+              
             </div>
           )}
           <div className="App-background">
@@ -92,11 +94,12 @@ function App() {
               <div className="upload-section">
                   <p className="title">
                     Upload a .pdf file to extract its text
-                  </p>
+                  </p> 
                   <PdfUpload
                     accept=".pdf"
                     updateFileCb = {handleUploadedFile}
                   />
+                  <TextUpload/>
                 </div>
                 <div className="extracted-text-section">
                   {pdfText && pdfText.map((page, index) => <p key={index}>{page}</p>)}
@@ -104,6 +107,7 @@ function App() {
               </div>
             </div>
           </div>
+          
           <Routes>
             <Route exact path="/" element={<Home />} />
           </Routes>
