@@ -1,32 +1,24 @@
 import './App.css'
-import React from 'react'
-import { Button } from '@material-ui/core'
-import { useNavigate } from 'react-router-dom'
-const Home = () => {
-  const navigate = useNavigate()
-
-  const navigateLogin = () => {
-    navigate('/login')
-  }
+import React, { useContext } from 'react'
+import UserContext from './components/user'
+import FileUpload from './components/upload'
+function Home(props) {
+  const user = useContext(UserContext)
+  const isLoggedin = user ? Object.keys(user).length != 0 : null
   return (
-    <div className="App-background">
-      <div className="d-flex flex-row-reverse">
-        <div className="p-2">
-          <button
-            type="button"
-            className="btn btn-light"
-            onClick={navigateLogin}
-          >
-            Login
-          </button>
-        </div>
-      </div>
-
-      <div className="App-header">
-        <h2>Welcome to AI Personalized Learning</h2>
-        <button type="button" className="btn btn-light" onClick={navigateLogin}>
-          Login
-        </button>
+    <div data-testid="home-1" className="App-background">
+      <div data-testid="home-2" className="App-header">
+        {!isLoggedin && (
+          <h2 data-testid="welcome">
+            Welcome to AI Personalized Learning, please log in to get started!
+          </h2>
+        )}
+        {isLoggedin && (
+          <h2 data-testid="welcomeUser">
+            Welcome to AI Personalized Learning, {user.given_name}
+          </h2>
+        )}
+        {isLoggedin && <FileUpload data-testid="FileUpload" />}
       </div>
     </div>
   )
