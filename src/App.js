@@ -1,7 +1,6 @@
 import './App.css'
 import jwt_decode from 'jwt-decode'
 import * as React from 'react'
-import { Routes, Route } from 'react-router-dom'
 import Home from './Home'
 import { useEffect, useState } from 'react'
 import UserContext from './components/user'
@@ -21,12 +20,12 @@ function App(props) {
   }
   useEffect(() => {
     /* global google*/
-    window.google.accounts.id.initialize({
+    window.google?.accounts?.id?.initialize({
       client_id: process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID,
       callback: handleCallbackResponse,
     })
 
-    window.google.accounts.id.renderButton(
+    window.google?.accounts?.id?.renderButton(
       document.getElementById('signInDiv'),
       {
         theme: 'outline',
@@ -40,7 +39,11 @@ function App(props) {
   return (
     <>
       <UserContext.Provider value={user}>
-        <div id="signInDiv" className="App-background"></div>
+        <div
+          id="signInDiv"
+          className="App-background"
+          data-testid="signInDiv"
+        ></div>
 
         {Object.keys(user).length != 0 && ( // signed in
           <div className="App-background" data-testid="signedin">
@@ -55,9 +58,7 @@ function App(props) {
             <img className="rounded" src={user.picture}></img>
           </div>
         )}
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-        </Routes>
+        <Home />
       </UserContext.Provider>
     </>
   )
