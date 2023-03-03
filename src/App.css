@@ -11,7 +11,7 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-color: #282c34;
+  background-color: #303247;
 }
 .Top-header {
   display: flex;
@@ -23,9 +23,15 @@
 }
 
 .App-background {
-  background-color: #282c34;
+  background-color: #303247;
 }
-
+.buttonDiv {
+  background-color: #303247;
+  padding-left: 30px;
+  padding-top: 30px;
+  align-items: flex-end;
+  justify-content: end;
+}
 .Text-background {
   color: white;
 }

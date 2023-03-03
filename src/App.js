@@ -39,11 +39,7 @@ function App(props) {
   return (
     <>
       <UserContext.Provider value={user}>
-        <div
-          id="signInDiv"
-          className="App-background"
-          data-testid="signInDiv"
-        ></div>
+        <div id="signInDiv" className="buttonDiv" data-testid="signInDiv"></div>
 
         {Object.keys(user).length != 0 && ( // signed in
           <div className="App-background" data-testid="signedin">
@@ -54,7 +50,7 @@ function App(props) {
             >
               Sign Out
             </button>
-            <h3 className="text-light ">{user.name}</h3>
+            <h3 className="text-light">{user.name}</h3>
             <img className="rounded" src={user.picture}></img>
           </div>
         )}
