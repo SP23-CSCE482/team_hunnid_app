@@ -33,6 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "heroku-postbuild": "cd back-end && node server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -44,7 +45,7 @@
       "not dead",
       "not op_mini all"
     ],
-    "development": [
+    "development": [  
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"

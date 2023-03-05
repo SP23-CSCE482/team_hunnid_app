@@ -11,6 +11,7 @@ const fs = require('fs');
 const morgan = require('morgan');
 const getText = require("./readPdfText");
 
+const recommendationURL = 'http://localhost:3001/resource/findByTag/'
 const app = express();
 
 const port = process.env.PORT || 3001;
@@ -93,6 +94,38 @@ app.post('/pdfToText', async (req, res) => {
     }
 });
 
+app.post('/TextBoxToRecommendation', async (req, res) => {
+    try {
+        let response
+        let textArray = req.body.question
+        let tag
+        console.log("array is: "+textArray)
+        try {
+            console.log("Testing Child Process : ");
+
+            const { spawn } = require('child_process');
+            const pyProg = spawn('python', ['./modelQueryForPlainText.py',textArray]);
+        
+            pyProg.stdout.on('data', async function(data) {
+                
+                //console.log(data.toString());
+                console.log("Success Child Process : ", data.toString());
+                tag = data.toString()
+                // response = await fetch(recommendationURL+tag.trim(),{ method: "GET"}).catch(error => console.log('error', error)); 
+                // res.send({
+                //     status: true,
+                //     data: response
+                // });
+            });            
+        } catch (err) {
+            console.log("Failed Child Process : ", err)
+            throw err
+        }
+        
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
 
 app.use('/', hunnidRoutes); 
 app.use('/', resourceRoutes); 

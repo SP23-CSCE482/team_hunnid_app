@@ -99,7 +99,7 @@ function App() {
                     accept=".pdf"
                     updateFileCb = {handleUploadedFile}
                   />
-                  <TextUpload/>
+                  {/* <TextUpload/> */}
                 </div>
                 <div className="extracted-text-section">
                   {pdfText && pdfText.map((page, index) => <p key={index}>{page}</p>)}
