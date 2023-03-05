@@ -59,10 +59,18 @@ app.post('/pdfToText', async (req, res) => {
                         const pyProg = spawn('python', ['./modelQuery.py',textArray]);
                     
                         pyProg.stdout.on('data', function(data) {
-                    
+                
                             //console.log(data.toString());
                             console.log("Success Child Process : ", data.toString());
-
+                            res.send({
+                                status: true,
+                                message: 'Pdf is uploaded',
+                                data: {
+                                    name: pdf.name,
+                                    size: pdf.size,
+                                    text: textArray
+                                }
+                            });
                         });
 
 
@@ -71,15 +79,7 @@ app.post('/pdfToText', async (req, res) => {
                     }
 
 
-                    res.send({
-                        status: true,
-                        message: 'Pdf is uploaded',
-                        data: {
-                            name: pdf.name,
-                            size: pdf.size,
-                            text: textArray
-                        }
-                    });
+                    
                 } else {
                     res.send({
                         status: false,
@@ -112,10 +112,10 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 console.log("Success Child Process : ", data.toString());
                 tag = data.toString()
                 // response = await fetch(recommendationURL+tag.trim(),{ method: "GET"}).catch(error => console.log('error', error)); 
-                // res.send({
-                //     status: true,
-                //     data: response
-                // });
+                res.send({
+                    status: true,
+                    data: response
+                });
             });            
         } catch (err) {
             console.log("Failed Child Process : ", err)
