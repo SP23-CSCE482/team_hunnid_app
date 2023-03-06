@@ -4,9 +4,38 @@ import * as React from 'react'
 import Home from './Home'
 import { useEffect, useState } from 'react'
 import UserContext from './components/user'
+import Upload from './components/upload'
+import PdfUpload from './components/pdfUpload'
 
-function App(props) {
+//import styled from 'styled-components';
+
+// Substitute with proper string according to api.
+const url = 'http://localhost:3001/pdfToText'
+
+function App() {
+  const [pdfText, setPdfText] = useState(null)
   const [user, setUser] = useState({})
+
+  const handleUploadedFile = (file) => {
+    let formData = new FormData()
+    formData.append('pdf', file[0], file[0].name)
+    formData.append('Content-Type', 'application/pdf')
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow',
+    }
+
+    fetch(url, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const parsedResult = JSON.parse(result)
+        setPdfText(parsedResult.data.text)
+      })
+      .catch((error) => console.log('error', error))
+  }
+
   function handleSignOut(event) {
     setUser({}) // set user back to empty object
     document.getElementById('signInDiv').hidden = false
@@ -20,12 +49,12 @@ function App(props) {
   }
   useEffect(() => {
     /* global google*/
-    window.google?.accounts?.id?.initialize({
+    window.google.accounts.id.initialize({
       client_id: process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID,
       callback: handleCallbackResponse,
     })
 
-    window.google?.accounts?.id?.renderButton(
+    window.google.accounts.id.renderButton(
       document.getElementById('signInDiv'),
       {
         theme: 'outline',
@@ -35,11 +64,16 @@ function App(props) {
 
     window.google.accounts.id.prompt()
   }, [])
+
   //If there is no user, show sign in button, if user, show home page
   return (
     <>
       <UserContext.Provider value={user}>
-        <div id="signInDiv" className="buttonDiv" data-testid="signInDiv"></div>
+        <div
+          id="signInDiv"
+          className="App-background"
+          data-testid="signInDiv"
+        ></div>
 
         {Object.keys(user).length != 0 && ( // signed in
           <div className="App-background" data-testid="signedin">
@@ -54,6 +88,20 @@ function App(props) {
             <img className="rounded" src={user.picture}></img>
           </div>
         )}
+        <div className="App-background">
+          <div className="App-component">
+            <div className="container">
+              <div className="upload-section">
+                <p className="title">Upload a .pdf file to extract its text</p>
+                <PdfUpload accept=".pdf" updateFileCb={handleUploadedFile} />
+              </div>
+              <div className="extracted-text-section">
+                {pdfText &&
+                  pdfText.map((page, index) => <p key={index}>{page}</p>)}
+              </div>
+            </div>
+          </div>
+        </div>
         <Home />
       </UserContext.Provider>
     </>
