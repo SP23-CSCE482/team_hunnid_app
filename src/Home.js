@@ -1,16 +1,40 @@
 import './App.css'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import UserContext from './components/user'
-import FileUpload from './components/upload'
 import hunnidpng from './resources/hunnidpng.png'
-function Home(props) {
+import PdfUpload from './components/pdfUpload'
+
+const url = 'http://localhost:3001/pdfToText'
+
+function Home() {
+  const [pdfText, setPdfText] = useState(null)
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
+
+  const handleUploadedFile = (file) => {
+    let formData = new FormData()
+    formData.append('pdf', file[0], file[0].name)
+    formData.append('Content-Type', 'application/pdf')
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow',
+    }
+
+    fetch(url, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        const parsedResult = JSON.parse(result)
+        setPdfText(parsedResult.data.text)
+      })
+      .catch((error) => console.log('error', error))
+  }
   return (
     <div data-testid="home-1" className="App-background">
       <div data-testid="home-2" className="App-header">
         {!isLoggedin && (
-          <div className={'d-flex flex-column align-items-center '}>
+          <div className={'d-flex flex-column align-items-center py-5'}>
             <img src={hunnidpng} width={250} />
             <h2
               data-testid="welcome"
@@ -27,16 +51,26 @@ function Home(props) {
               data-testid="welcomeUser"
               className={'text-center font-weight-bold'}
             >
-              Howdy, {user.given_name}!
+              Howdy {user.given_name}!
             </h2>
             <img src={hunnidpng} width={250} />
-            <p>
+            <p className={'instructions'}>
               Upload your assignment below, and we&apos;ll recommend you study
               materials that best suit your needs.
             </p>
+            <div className="upload-section">
+              <PdfUpload
+                data-testid="FileUpload"
+                accept=".pdf"
+                updateFileCb={handleUploadedFile}
+              />
+              <div className="extracted-text-section">
+                {pdfText &&
+                  pdfText.map((page, index) => <p key={index}>{page}</p>)}
+              </div>
+            </div>
           </div>
         )}
-        {isLoggedin && <FileUpload data-testid="FileUpload" />}
       </div>
     </div>
   )
