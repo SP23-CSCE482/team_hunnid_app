@@ -29,6 +29,64 @@ app.use(fileUpload({
     },
 }));
 
+app.post('/rawPdf', async (req, res) => {
+    try {
+        if (!req.files) {
+            res.send({
+                status: false,
+                message: 'No pdf uploaded'
+            });
+        } else {
+
+            let pdf = req.files.pdf;
+            const filePath = `./uploads/${pdf.name}`;
+            await pdf.mv(filePath);
+
+            getText(filePath).then(function (textArray) {
+                if (textArray.length > 0) {
+                    fs.unlink(filePath, function (error) {
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
+                    try {
+
+                        res.send({
+                            status: true,
+                            message: 'Just The Text bb',
+                            data: {
+                                name: pdf.name,
+                                size: pdf.size,
+                                text: [textArray]
+                            }
+                        });
+
+                    } catch (err) {
+                        console.log("Incomplete parse : ", err)
+                        res.send({
+                            status: false,
+                            message: 'There was an issue parsing the pdf file',
+                            text: ["Parsed but incomplete"]
+                        });
+                    }
+
+                } else {
+                    console.log("Failed parse : ", err)
+                    res.send({
+                        status: false,
+                        message: 'There was an issue parsing the pdf file',
+                        text: ["Could not parse pdf file"]
+                    });
+                }
+            });
+        }
+    } catch (err) {
+        res.status(500).send(err);
+    }
+});
+
+
+
 app.post('/pdfToText', async (req, res) => {
     try {
         if (!req.files) {
