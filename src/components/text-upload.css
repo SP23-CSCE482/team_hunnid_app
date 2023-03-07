@@ -1,0 +1,20 @@
+input[type=text] {
+    width: 100%;
+    height: 200px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+  }
+
+input[type="submit"] {
+    display: block;
+    margin: auto;
+}
+
+label{
+  text-align: center; 
+}
+
+.Text-background {
+    color: white;
+  }
+  
