@@ -3,13 +3,14 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require ('express');
 const hunnidRoutes = require('./routes/hunnid'); // import the routes
-const resourceRoutes = require('./routes/resource')
+const resourceRoutes = require('./routes/resource');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const morgan = require('morgan');
 const getText = require("./readPdfText");
+var request = require('request');
 
 const recommendationURL = 'http://localhost:3001/resource/findByTag/'
 const app = express();
@@ -96,7 +97,7 @@ app.post('/pdfToText', async (req, res) => {
 
 app.post('/TextBoxToRecommendation', async (req, res) => {
     try {
-        let response
+        let reccomendations
         let textArray = req.body.question
         let tag
         console.log("array is: "+textArray)
@@ -110,12 +111,34 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 
                 //console.log(data.toString());
                 console.log("Success Child Process : ", data.toString());
-                tag = data.toString()
-                // response = await fetch(recommendationURL+tag.trim(),{ method: "GET"}).catch(error => console.log('error', error)); 
-                res.send({
-                    status: true,
-                    data: response
+                tag =  data.toString()
+                console.log('Tag is:'+tag)
+                // findResourcesByTag(tag, function(result){
+                //     console.log(result)
+                // });
+                request({
+                    url: recommendationURL+tag, //on 3000 put your port no.
+                    method: 'GET',
+                }, function (error, response, body) {
+                    console.log({error: error, response: response, body: body});
+                    res.send({
+                        status: true,
+                        data:  JSON.parse(body)
+                    });
                 });
+
+                // const reccURL = await fetch({
+                //     url: recommendationURL, //on 3000 put your port no.
+                //     method: 'GET',
+                //     json: {
+                //         template: template.toLowerCase(),
+                //         obj: tag
+                //     }
+                // }, function (error, response, body) {
+                //     console.log({error: error, response: response, body: body});
+                // });
+                // console.log(typeof reccURL)
+                
             });            
         } catch (err) {
             console.log("Failed Child Process : ", err)
