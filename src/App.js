@@ -11,7 +11,7 @@ import PdfUpload from './components/pdfUpload'
 //import styled from 'styled-components';
 
 // Substitute with proper string according to api.
-const url = "http://localhost:3001/pdfToText";
+const url = "http://localhost:3002/pdfToText";
 
 function App() {
   

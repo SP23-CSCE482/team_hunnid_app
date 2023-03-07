@@ -14,7 +14,7 @@ const { text } = require('body-parser');
 
 const app = express();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 app.use(express.json());
 app.use(cors());
@@ -55,7 +55,7 @@ app.post('/pdfToText', async (req, res) => {
 
                     try {
                         const { spawn } = require('child_process');
-                        const pyProg = spawn('python3', ['./modelQuery.py', textArray]);
+                        const pyProg = spawn('python', ['./modelQuery.py', textArray]);
 
                         pyProg.stdout.on('data', function (data) {
 
@@ -107,7 +107,7 @@ mongoose.connect(
     }
 );
 
-const listener = app.listen(process.env.PORT || 3001, () => {
+const listener = app.listen(process.env.PORT || 3002, () => {
     console.log('App listening on port ' + listener.address().port)
 })
 

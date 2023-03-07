@@ -14,5 +14,7 @@ if __name__ == "__main__":
     tempStr = sys.argv[1]
     problemArr = [elem.split("(a)")[0] for elem in tempStr.split("Problem")]
     problemArr = problemArr[1:]
+    count = 1
     for elem in problemArr:
-        print(model.predict(count_vect.transform([elem])), " is suggested for : ", elem, "HUNNID")
+        print(model.predict(count_vect.transform([elem])), " is suggested for : Q", count , "HUNNID")
+        count+=1
