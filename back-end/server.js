@@ -11,7 +11,7 @@ const fs = require('fs');
 const morgan = require('morgan');
 const getText = require("./readPdfText");
 
-const recommendationURL = 'http://localhost:3001/resource/findByTag/'
+const recommendationURL = 'http://localhost:3002/resource/findByTag/'
 const app = express();
 
 const port = process.env.PORT || 3002;
