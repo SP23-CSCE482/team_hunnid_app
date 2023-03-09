@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
-const pdfjsLib = require("pdfjs-dist/legacy/build/pdf.js");
-
+const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js')
 
 function FileUpload() {
   const handleUpload = () => {
@@ -9,7 +8,6 @@ function FileUpload() {
   }
   return (
     <form onSubmit={handleUpload}>
-
       <input id="userPdf" type="file" />
       <Button variant="contained" type="submit">
         Upload

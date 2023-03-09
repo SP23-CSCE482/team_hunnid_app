@@ -1,3 +1,13 @@
+:root {
+  --dark_blue: #303247;
+  --peach: #fdcb98;
+  --forest_green: #324c30;
+  --secondary_green: #444d32;
+  --brown: #663200;
+}
+* {
+  font-family: 'Roboto Mono', monospace;
+}
 .App {
   text-align: center;
 }
@@ -11,7 +21,7 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-color: #282c34;
+  background-color: var(--dark_blue);
 }
 
 .Top-header {
@@ -24,7 +34,18 @@
 }
 
 .App-background {
-  background-color: #282c34;
+  background-color: var(--dark_blue);
+}
+.signOutDiv {
+  background-color: var(--dark_blue);
+  flex-direction: row-reverse;
+}
+.buttonDiv {
+  background-color: var(--dark_blue);
+  padding-left: 30px;
+  padding-top: 30px;
+  align-items: flex-end;
+  justify-content: end;
 }
 
 .App-component {
@@ -34,14 +55,13 @@
   top: 50px;
   height: 10px;
   font-size: calc(10px + 2vmin);
-  color: #ffffff;
+  color: white;
   display: 'block';
   flex-direction: row-reverse;
   align-items: 'center';
   justify-content: 'center';
-  background-color: #282c34;
+  background-color: var(--dark_blue);
 }
-
 
 .Text-background {
   color: white;
@@ -56,7 +76,7 @@
 }
 
 .container:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -66,7 +86,7 @@
 }
 
 .extracted-text-section {
-  background-color: #282c34;
+  background-color: var(--dark_blue);
   flex: 10;
 }
 
@@ -74,4 +94,64 @@
   margin: 0;
   line-height: 1.15;
   font-size: 2rem;
+}
+
+.instructions {
+  width: 800px;
+  text-align: center;
+  margin: 10px;
+}
+.signOutButton {
+  box-sizing: border-box;
+  background-color: var(--peach);
+  border: 2px solid var(--brown);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--brown);
+  overflow: hidden;
+  transition: color 250ms ease-in-out;
+  padding: 7px;
+  width: 150px;
+  float: right;
+  margin: 10px;
+}
+.card {
+  width: 250px;
+  flex-direction: row;
+  align-items: center;
+  background: var(--peach);
+  border: 2px solid var(--brown);
+}
+.card-title {
+  font-weight: bold;
+  color: var(--brown);
+}
+.card img {
+  width: 100px;
+  border-radius: 50%;
+  padding: 5px;
+}
+@media only screen and (max-width: 768px) {
+  a {
+    display: none;
+  }
+  .card-body {
+    padding: 0.5em 1.2em;
+  }
+  .card-body .card-text {
+    margin: 0;
+  }
+  .card img {
+    width: 10%;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .card img {
+    width: 10%;
+  }
 }
