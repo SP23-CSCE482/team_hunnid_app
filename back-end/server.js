@@ -59,8 +59,6 @@ app.post('/pdfToText', async (req, res) => {
                         const pyProg = spawn('python', ['./modelQuery.py',textArray]);
                     
                         pyProg.stdout.on('data', function(data) {
-                
-                            //console.log(data.toString());
                             console.log("Success Child Process : ", data.toString());
                             res.send({
                                 status: true,
@@ -68,18 +66,13 @@ app.post('/pdfToText', async (req, res) => {
                                 data: {
                                     name: pdf.name,
                                     size: pdf.size,
-                                    text: textArray
+                                    text: data.toString().split("HUNNID")
                                 }
                             });
                         });
-
-
                     } catch (err) {
                         console.log("Failed Child Process : ", err)
                     }
-
-
-                    
                 } else {
                     res.send({
                         status: false,

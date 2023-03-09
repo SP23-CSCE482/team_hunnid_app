@@ -13,7 +13,7 @@ with open('finalized_model.sav', 'rb') as f:
 if __name__ == "__main__":
     tempStr = sys.argv[1]
     problemArr = [elem.split("(a)")[0] for elem in tempStr.split("Problem")]
-    # problemArr = problemArr[1:]
+    problemArr = problemArr[1:]
     print(problemArr)
     for elem in problemArr:
         print(model.predict(count_vect.transform(
