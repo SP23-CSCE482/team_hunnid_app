@@ -1,14 +1,5 @@
-import {
-  render,
-  screen,
-  cleanup,
-  waitFor,
-  getByTestId,
-} from '@testing-library/react'
-import { shallow } from 'enzyme'
+import { render, screen, waitFor, getByTestId } from '@testing-library/react'
 import Home from '../Home'
-import userEvent from '@testing-library/user-event'
-import FileUpload from '../components/upload'
 
 const testUser = {
   given_name: 'Daniel',
@@ -34,7 +25,7 @@ describe('Home', () => {
 
   test('User is signed in, login is prompted', () => {
     const { getByText } = render(<Home isLoggedin={true} />)
-    waitFor(() => expect(getByText('WelcomeUser')).toBeVisible())
+    waitFor(() => expect(getByTestId('WelcomeUser')).toBeVisible())
     waitFor(() => expect(getByText('welcome')).not.toBeVisible())
   })
 
