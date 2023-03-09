@@ -12,7 +12,8 @@ import TextUpload from './components/textUpload'
 //import styled from 'styled-components';
 
 // Substitute with proper string according to api.
-const url = "http://localhost:3002/pdfToText";
+const url = "http://localhost:3001/pdfToText";
+const url1 = "http://localhost:3001/rawPdf";
 
 function App() {
   
@@ -38,6 +39,26 @@ function App() {
       })
       .catch(error => console.log('error', error));
     }
+    
+    const handleUploadedFileRawPDF = (file) => {
+      let formData = new FormData();
+      formData.append("pdf", file[0], file[0].name);
+      formData.append("Content-Type", "application/pdf");
+  
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+        redirect: 'follow'
+      };
+  
+      fetch(url1, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          const parsedResult = JSON.parse(result);
+          setPdfText(parsedResult.data.text);
+        })
+        .catch(error => console.log('error', error));
+      }
 
     function handleSignOut(event) {
       setUser({}) // set user back to empty object
@@ -91,6 +112,10 @@ function App() {
           <div className="App-background">
             <div className="App-component">
               <div className="container">
+              <PdfUpload
+                    accept=".pdf"
+                    updateFileCb = {handleUploadedFileRawPDF}
+                  />
               <div className="upload-section">
                   <p className="title">
                     Upload a .pdf file to extract its text
