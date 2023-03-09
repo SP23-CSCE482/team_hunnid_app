@@ -25,6 +25,7 @@
     "next": "13.1.6",
     "pdfjs-dist": "2.5.207",
     "react": "18.2.0",
+    "react-collapsed": "^3.6.0",
     "react-dom": "18.2.0"
   }
 }
