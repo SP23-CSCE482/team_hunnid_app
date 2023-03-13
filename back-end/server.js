@@ -12,6 +12,7 @@ const morgan = require('morgan');
 const getText = require("./readPdfText");
 
 const recommendationURL = 'http://localhost:3002/resource/findByTag/'
+const recommendationURL2 = 'http://localhost:3002/resource/findByTagThroughWebscraping/'
 const app = express();
 
 const port = process.env.PORT || 3002;
@@ -126,7 +127,7 @@ app.post('/pdfToText', async (req, res) => {
                                 data: {
                                     name: pdf.name,
                                     size: pdf.size,
-                                    text: textArray
+                                    text: data.toString()
                                 }
                             });
                         });

@@ -12,8 +12,8 @@ import TextUpload from './components/textUpload'
 //import styled from 'styled-components';
 
 // Substitute with proper string according to api.
-const url = "http://localhost:3001/pdfToText";
-const url1 = "http://localhost:3001/rawPdf";
+const url = "http://localhost:3002/pdfToText";
+const url1 = "http://localhost:3002/rawPdf";
 
 function App() {
   
@@ -35,7 +35,7 @@ function App() {
       .then(response => response.text())
       .then(result => {
         const parsedResult = JSON.parse(result);
-        setPdfText(parsedResult.data.text);
+        setPdfText([parsedResult.data.text]);
       })
       .catch(error => console.log('error', error));
     }
