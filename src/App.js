@@ -11,6 +11,46 @@ import UserContext from './components/user'
 function App() {
   const [user, setUser] = useState({})
 
+  const handleUploadedFile = (file) => {
+    let formData = new FormData();
+    formData.append("pdf", file[0], file[0].name);
+    formData.append("Content-Type", "application/pdf");
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow'
+    };
+
+    fetch(url, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        const parsedResult = JSON.parse(result);
+        setPdfText([parsedResult.data.text]);
+      })
+      .catch(error => console.log('error', error));
+    }
+    
+    const handleUploadedFileRawPDF = (file) => {
+      let formData = new FormData();
+      formData.append("pdf", file[0], file[0].name);
+      formData.append("Content-Type", "application/pdf");
+  
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+        redirect: 'follow'
+      };
+  
+      fetch(url1, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          const parsedResult = JSON.parse(result);
+          setPdfText(parsedResult.data.text);
+        })
+        .catch(error => console.log('error', error));
+      }
+
   function handleSignOut(event) {
     setUser({}) // set user back to empty object
     document.getElementById('signInDiv').hidden = false

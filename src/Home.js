@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
+import TextUpload from  './components/textUpload'
 
 const url = 'http://localhost:3001/pdfToText'
 const urlForText = 'http://localhost:3001/TextBoxToRecommendation'
@@ -33,13 +34,14 @@ function Home() {
       .catch((error) => console.log('error', error))
   }
   const handleUploadedText = (text) => {
-    formData = {"question":text}
+    let formData = new FormData()
+    formData.append("question",text)
     const requestOptions = {
       method: 'POST',
       body: formData,
     }
 
-    fetch(url, requestOptions)
+    fetch(urlForText, requestOptions)
       .then((response) => response.text())
       .then((result) => {
         const parsedResult = JSON.parse(result)

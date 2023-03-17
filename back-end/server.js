@@ -12,10 +12,11 @@ const morgan = require('morgan');
 const getText = require("./readPdfText");
 var request = require('request');
 
-const recommendationURL = 'http://localhost:3001/resource/findByTag/'
+const recommendationURL = 'http://localhost:3002/resource/findByTag/'
+const recommendationURL2 = 'http://localhost:3002/resource/findByTagThroughWebscraping/'
 const app = express();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 app.use(express.json());
 app.use(cors());
@@ -31,60 +32,125 @@ app.use(fileUpload({
   }),
 )
 
-app.post('/pdfToText', async (req, res) => {
-  try {
-    if (!req.files) {
-      res.send({
-        status: false,
-        message: 'No pdf uploaded',
-      })
-    } else {
-      let pdf = req.files.pdf
-      const filePath = `./uploads/${pdf.name}`
-      await pdf.mv(filePath)
 
-      getText(filePath).then(function (textArray) {
-        if (textArray.length > 0) {
-          // delete pdf file locally after we are done with it
-          fs.unlink(filePath, function (error) {
-            if (error) {
-              console.error(error)
-            }
-          })
-          console.log(typeof textArray)
-          console.log(textArray.length, ' is the returned Length.')
-
-          try {
-            const { spawn } = require('child_process')
-            const pyProg = spawn('python3', ['./modelQuery.py', textArray])
-
-            pyProg.stdout.on('data', function (data) {
-              console.log(typeof data)
-              console.log(data.toString().length)
-              console.log('Success Child Process : ', data.toString())
-
-              res.send({
-                status: true,
-                message: 'Pdf is uploaded',
-                data: {
-                  name: pdf.name,
-                  size: pdf.size,
-                  text: [data.toString().split('HUNNID')],
-                },
-              })
-            })
-          } catch (err) {
-            console.log('Failed Child Process : ', err)
-          }
+app.post('/rawPdf', async (req, res) => {
+    try {
+        if (!req.files) {
+            res.send({
+                status: false,
+                message: 'No pdf uploaded'
+            });
         } else {
-          res.send({
-            status: false,
-            message: 'There was an issue parsing the pdf file',
-            text: ['Could not parse pdf file'],
-          })
+
+            let pdf = req.files.pdf;
+            const filePath = `./uploads/${pdf.name}`;
+            await pdf.mv(filePath);
+
+            getText(filePath).then(function (textArray) {
+                if (textArray.length > 0) {
+                    fs.unlink(filePath, function (error) {
+                        if (error) {
+                            console.error(error);
+                        }
+                    });
+                    try {
+
+                        res.send({
+                            status: true,
+                            message: 'Just The Text bb',
+                            data: {
+                                name: pdf.name,
+                                size: pdf.size,
+                                text: [textArray]
+                            }
+                        });
+
+                    } catch (err) {
+                        console.log("Incomplete parse : ", err)
+                        res.send({
+                            status: false,
+                            message: 'There was an issue parsing the pdf file',
+                            text: ["Parsed but incomplete"]
+                        });
+                    }
+
+                } else {
+                    console.log("Failed parse : ", err)
+                    res.send({
+                        status: false,
+                        message: 'There was an issue parsing the pdf file',
+                        text: ["Could not parse pdf file"]
+                    });
+                }
+            });
         }
-      })
+    } catch (err) {
+        res.status(500).send(err);
     }
+});
+
+
+
+app.post('/pdfToText', async (req, res) => {
+    try {
+        if (!req.files) {
+            res.send({
+                status: false,
+                message: 'No pdf uploaded'
+            });
+        } else {
+            
+            let pdf = req.files.pdf;
+            const filePath = `./uploads/${pdf.name}`;
+            await pdf.mv(filePath);
+
+            getText(filePath).then(function(textArray) {
+                if(textArray.length > 0) {
+                    // delete pdf file locally after we are done with it
+                    fs.unlink(filePath, function (error) {
+                        if(error) {
+                            console.error(error);
+                        }
+                    });
+                    console.log(textArray);
+                    
+                    try {
+                        console.log("Testing Child Process : ");
+
+                        const { spawn } = require('child_process');
+                        const pyProg = spawn('python', ['./modelQuery.py', textArray]);
+
+                        pyProg.stdout.on('data', function (data) {
+
+                            //console.log(data.toString());
+                            console.log("Success Child Process : ", data.toString());
+                            res.send({
+                                status: true,
+                                message: 'Pdf is uploaded',
+                                data: {
+                                    name: pdf.name,
+                                    size: pdf.size,
+                                    text: data.toString()
+                                }
+                            });
+                        });
+
+
+                    } catch (err) {
+                        console.log("Failed Child Process : ", err)
+                    }
+
+
+                    
+                } else {
+                    res.send({
+                        status: false,
+                        message: 'There was an issue parsing the pdf file',
+                        text: ["Could not parse pdf file"]
+                    });
+                }
+            });
+        }
 } catch (err) {
     res.status(500).send(err)
   }
