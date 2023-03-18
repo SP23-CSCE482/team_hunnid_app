@@ -12,11 +12,13 @@ const morgan = require('morgan');
 const getText = require("./readPdfText");
 var request = require('request');
 
-const recommendationURL = 'http://localhost:3002/resource/findByTag/'
-const recommendationURL2 = 'http://localhost:3002/resource/findByTagThroughWebscraping/'
+
 const app = express();
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3001;
+
+const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
+const recommendationURL2 = 'http://localhost:'+port+'/resource/findByTagThroughWebscraping/'
 
 app.use(express.json());
 app.use(cors());
@@ -158,7 +160,6 @@ app.post('/pdfToText', async (req, res) => {
 
 app.post('/TextBoxToRecommendation', async (req, res) => {
     try {
-        let reccomendations
         let textArray = req.body.question
         let tag
         console.log("array is: "+textArray)
@@ -177,11 +178,12 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 // findResourcesByTag(tag, function(result){
                 //     console.log(result)
                 // });
+                console.log('Url is: '+recommendationURL+tag)
                 request({
-                    url: recommendationURL+tag, //on 3000 put your port no.
+                    url: recommendationURL2+tag, //on 3000 put your port no.
                     method: 'GET',
                 }, function (error, response, body) {
-                    console.log({error: error, response: response, body: body});
+                    console.log({body: body});
                     res.send({
                         status: true,
                         data:  JSON.parse(body)
@@ -223,21 +225,6 @@ mongoose.connect(
         console.log("MongoDB Connection : Ready state is:", mongoose.connection.readyState);
     }
 );
-
-app.use('/', hunnidRoutes)
-
-// database conn
-mongoose.connect(
-  process.env.MONGODB_URI,
-  { useUnifiedTopology: true, useNewUrlParser: true },
-  (err) => {
-    if (err) return console.log('Error: ', err)
-    console.log(
-      'MongoDB Connection : Ready state is:',
-      mongoose.connection.readyState,
-    )
-  },
-)
 
 const listener = app.listen(process.env.PORT || 3001, () => {
   console.log('App listening on port ' + listener.address().port)

@@ -10,7 +10,7 @@ const urlForText = 'http://localhost:3001/TextBoxToRecommendation'
 
 function Home() {
   const [pdfText, setPdfText] = useState(null)
-  const [questionText, setQuestionText] = useState(null)
+  const [resourceArray, setResourceArray] = useState(null)
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
 
@@ -25,7 +25,7 @@ function Home() {
       redirect: 'follow',
     }
 
-    fetch(url, requestOptions)
+    fetch(url, requestOption)
       .then((response) => response.text())
       .then((result) => {
         const parsedResult = JSON.parse(result)
@@ -33,9 +33,10 @@ function Home() {
       })
       .catch((error) => console.log('error', error))
   }
-  const handleUploadedText = (text) => {
+  const handleUploadedText = (event) => {
+    event.preventDefault()
     let formData = new FormData()
-    formData.append("question",text)
+    formData.append("question",document.getElementById('questionToCategorize').value)
     const requestOptions = {
       method: 'POST',
       body: formData,
@@ -45,9 +46,13 @@ function Home() {
       .then((response) => response.text())
       .then((result) => {
         const parsedResult = JSON.parse(result)
-        setQuestionText(parsedResult.data.text)
+        console.log(parsedResult.data)
+        console.log(Array.isArray(parsedResult.data))
+        setResourceArray(parsedResult.data)
+        console.log(resourceArray)
       })
       .catch((error) => console.log('error', error))
+      document.getElementById('questionToCategorize').value =''
   }
   return (
     <div data-testid="home-1" className="App-background">
@@ -78,16 +83,28 @@ function Home() {
               materials that best suit your needs.
             </p>
             <div className="upload-section">
-              <TextUpload/>
+              <form onSubmit={handleUploadedText}>
+                  <label>
+                    Input Question to Categorize:
+                    <textarea id="questionToCategorize" rows="4" cols="50">
+                    </textarea>
+                  </label>
+                <input type="submit" value="Submit"/>
+              </form>
               <PdfUpload
                 data-testid="FileUpload"
                 accept=".pdf"
                 updateFileCb={handleUploadedFile}
               />
               <div className="extracted-text-section">
-              {questionText}
+
+                {/* {resourceArray &&
+                  resourceArray.map ((resources) => (<p key={resources._id}>{resources.resource_name +" is a recommendation based on: "+ resources.tags}</p>))} */}
+                {resourceArray &&
+                  resourceArray.map ((resources) => (<p key = {resources}>{resources}</p>))}
                 {pdfText &&
                   pdfText.map((page, index) => <p key={index}>{page}</p>)}
+                
               </div>
             </div>
           </div>

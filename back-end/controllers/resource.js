@@ -34,7 +34,8 @@ const findResourcesByTagThroughWebscraping = (req, res, next) => {
               scrapedUrls.push(url);
             }
           });
-          res.json(scrapedUrls);
+          const uniquescrapedUrls = Array.from(new Set(scrapedUrls))  
+          res.json(uniquescrapedUrls);
         } else {
           console.error('Failed to fetch the web page: ', error);
           res.json({ Error: error });
