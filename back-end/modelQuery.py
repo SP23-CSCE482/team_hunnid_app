@@ -16,5 +16,4 @@ if __name__ == "__main__":
     problemArr = problemArr[1:]
     count = 1
     for elem in problemArr:
-        print(model.predict(count_vect.transform([elem])), " is suggested for : Q", count , "HUNNID")
-        count+=1
+        print(model.predict(count_vect.transform([elem]))+" ",end = "")
