@@ -15,10 +15,11 @@ var request = require('request');
 
 const app = express();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
 const recommendationURL2 = 'http://localhost:'+port+'/resource/findByTagThroughWebscraping/'
+const recommendationURL3 = 'http://localhost:'+port+'/resource/findVideoResources/'
 
 app.use(express.json());
 app.use(cors());
@@ -229,6 +230,6 @@ mongoose.connect(
     }
 );
 
-const listener = app.listen(process.env.PORT || 3001, () => {
+const listener = app.listen(process.env.PORT || 3002, () => {
   console.log('App listening on port ' + listener.address().port)
 })

@@ -6,8 +6,8 @@ import PdfUpload from './components/pdfUpload'
 import TextUpload from  './components/textUpload'
 
 import useCollapse from 'react-collapsed'
-const url = 'http://localhost:3001/pdfToText'
-const urlForText = 'http://localhost:3001/TextBoxToRecommendation'
+const url = 'http://localhost:3002/pdfToText'
+const urlForText = 'http://localhost:3002/TextBoxToRecommendation'
 
 function Collapsible(props) {
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()

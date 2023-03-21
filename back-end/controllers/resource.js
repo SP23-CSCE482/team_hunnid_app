@@ -4,6 +4,14 @@ const Resource = require('../models/resource');
 const request = require('request');
 const cheerio = require('cheerio');
 
+const { google } = require('googleapis');
+
+// Set up the client object
+const youtube = google.youtube({
+  version: 'v3',
+  auth: 'AIzaSyCPNBZ6MxWo1jUxtu2DVKtNIKujZZsYhWM'
+});
+
 //GET '/resource/findByTag/:tag'
 const findResourcesByTag = (req, res, next) => {
     let tagToSearch = req.params.tag; // will filter using the tags 
@@ -47,6 +55,42 @@ const findResourcesByTagThroughWebscraping = (req, res, next) => {
       }); 
 };
 
+const findVideoResources = (req, res, next) => {
+  let tagToSearch = req.params.tag; // will filter using the tags
+  // Define the search query
+  let searchQuery = 'calculus ';
+  searchQuery += tagToSearch;
+  console.log(searchQuery);
+
+  // Make the API request
+  youtube.search.list({
+    part: 'snippet',
+    type: 'video',
+    q: searchQuery,
+    maxResults: 5
+  })
+  .then((response) => {
+    // Extract the video data from the API response
+    const videos = response.data.items.map((item) => ({
+      title: item.snippet.title,
+      description: item.snippet.description,
+      videoId: item.id.videoId,
+      thumbnailUrl: item.snippet.thumbnails.medium.url,
+      videoUrl: `https://www.youtube.com/watch?v=${item.id.videoId}`
+    }));
+
+    // Log the video data to the console
+    console.log(`Top ${videos.length} search results for "${searchQuery}":`);
+    videos.forEach((video, index) => {
+      console.log(`\n#${index + 1}: ${video.title}\nDescription: ${video.description}\nVideo ID: ${video.videoId}\nThumbnail URL: ${video.thumbnailUrl}`);
+    });
+    return res.json(videos)
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+};
+
 
 
 
@@ -55,5 +99,6 @@ const findResourcesByTagThroughWebscraping = (req, res, next) => {
 module.exports = {
     //get
     findResourcesByTag,
-    findResourcesByTagThroughWebscraping
+    findResourcesByTagThroughWebscraping,
+    findVideoResources
 };
