@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react'
 import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
-import TextUpload from  './components/textUpload'
+import TextUpload from './components/textUpload'
 
 import useCollapse from 'react-collapsed'
 const url = 'http://localhost:3001/pdfToText'
@@ -120,7 +120,7 @@ function Home() {
       <li>
         <a
           className="card-text"
-          href = {resources.toString()}
+          href={resources.toString()}
           target="_blank"
           rel="noreferrer noopener"
         >
@@ -144,7 +144,10 @@ function Home() {
 
     event.preventDefault()
     let formData = new FormData()
-    formData.append("question",document.getElementById('questionToCategorize').value)
+    formData.append(
+      'question',
+      document.getElementById('questionToCategorize').value,
+    )
     const requestOptions = {
       method: 'POST',
       body: formData,
@@ -160,7 +163,7 @@ function Home() {
         console.log(resourceArray)
       })
       .catch((error) => console.log('error', error))
-      document.getElementById('questionToCategorize').value =''
+    document.getElementById('questionToCategorize').value = ''
   }
   const displayTagQuestion = (obj, id) => {
     console.log(obj)
@@ -243,32 +246,25 @@ function Home() {
             <img src={hunnidpng} width={250} />
             {!pdfText && (
               <p className={'instructions'}>
-                Upload your assignment below, and we&apos;ll recommend you study
-                materials that best suit your needs.
+                We&apos;ll recommend you study materials that best suit your
+                needs.
               </p>
             )}
             {pdfText && (
               <p className={'topic_instructions'}>
-                Below are some topics we think you should focus on. Click a
-                topic to see some related resources we recommend.
+                Below are some topics we think you should focus on. <br></br>{' '}
+                Click a topic to see some related resources we recommend.
               </p>
             )}
             <div className="upload-section">
-            {resourceArray && (
+              {resourceArray && (
                 <div className="extracted-text-section">
                   {resourceArray.map((obj) => displayTagQuestion(obj, obj.id))}
                   {/* {pdfText &&
                   pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
                 </div>
               )}
-              <form onSubmit={handleUploadedText}>
-                  <label>
-                    Input Question to Categorize:
-                    <textarea id="questionToCategorize" rows="4" cols="50">
-                    </textarea>
-                  </label>
-                <input type="submit" className="upload-file-button" value="Get Resources"/>
-              </form>
+
               {pdfText && (
                 <div className="extracted-text-section">
                   {testData.map((obj) => displayTagQuestion(obj, obj.id))}
@@ -276,13 +272,46 @@ function Home() {
                   pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
                 </div>
               )}
-              <PdfUpload
-                data-testid="FileUpload"
-                accept=".pdf"
-                updateFileCb={handleUploadedFile}
-              />
-              
+              <div className="container d-flex flex-column align-items-center">
+                <div className="row border-top">
+                  <div className="col-xl">
+                    <div className="text-upload-container">
+                      <form onSubmit={handleUploadedText}>
+                        <div className="form-group">
+                          <label className="p-1">Just one question?</label>
+                          <textarea
+                            className="form-control-sm"
+                            id="questionToCategorize"
+                            rows="4"
+                            cols="50"
+                            placeholder="Input question to categorize here:"
+                          ></textarea>
+                          <div className="p-2">
+                            <input
+                              type="submit"
+                              className="upload-text-button"
+                              value="Get Resources"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div className="col-xl">
+                    <div className="text-upload-container">
+                      <div className="form-group">
+                        <label className="p-1">Upload an assignment?</label>
 
+                        <PdfUpload
+                          data-testid="FileUpload"
+                          accept=".pdf"
+                          updateFileCb={handleUploadedFile}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
