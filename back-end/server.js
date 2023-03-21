@@ -185,8 +185,11 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 }, function (error, response, body) {
                     console.log({body: body});
                     res.send({
+                        id: 1,
                         status: true,
-                        data:  JSON.parse(body)
+                        resources:  JSON.parse(body),
+                        tag: tag,
+                        question: [textArray]
                     });
                 });
 

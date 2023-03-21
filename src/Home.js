@@ -110,6 +110,8 @@ function Home() {
   //     .catch((error) => console.log('error', error))
   // }
   const handleUploadedFile = (file) => {
+    // to clear existing cards
+    setResourceArray(null)
     setPdfText(testData)
   }
   const displayResources = (resources) => {
@@ -118,7 +120,7 @@ function Home() {
       <li>
         <a
           className="card-text"
-          href="https://www.w3schools.com/jsref/jsref_includes.asp"
+          href = {resources.toString()}
           target="_blank"
           rel="noreferrer noopener"
         >
@@ -137,6 +139,9 @@ function Home() {
   }
 
   const handleUploadedText = (event) => {
+    // to clear existing cards
+    setPdfText(null)
+
     event.preventDefault()
     let formData = new FormData()
     formData.append("question",document.getElementById('questionToCategorize').value)
@@ -151,13 +156,14 @@ function Home() {
         const parsedResult = JSON.parse(result)
         console.log(parsedResult.data)
         console.log(Array.isArray(parsedResult.data))
-        setResourceArray(parsedResult.data)
+        setResourceArray([parsedResult])
         console.log(resourceArray)
       })
       .catch((error) => console.log('error', error))
       document.getElementById('questionToCategorize').value =''
   }
   const displayTagQuestion = (obj, id) => {
+    console.log(obj)
     return id % 2 === 1 ? (
       <Collapsible style={0} tag={obj.tag}>
         <div className="card-body">
@@ -248,9 +254,17 @@ function Home() {
               </p>
             )}
             <div className="upload-section">
-              {pdfText && (
+              <form onSubmit={handleUploadedText}>
+                  <label>
+                    Input Question to Categorize:
+                    <textarea id="questionToCategorize" rows="4" cols="50">
+                    </textarea>
+                  </label>
+                <input type="submit" className="upload-file-button" value="Get Resources"/>
+              </form>
+              {resourceArray && (
                 <div className="extracted-text-section">
-                  {testData.map((obj) => displayTagQuestion(obj, obj.id))}
+                  {resourceArray.map((obj) => displayTagQuestion(obj, obj.id))}
                   {/* {pdfText &&
                   pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
                 </div>
@@ -260,6 +274,14 @@ function Home() {
                 accept=".pdf"
                 updateFileCb={handleUploadedFile}
               />
+              {pdfText && (
+                <div className="extracted-text-section">
+                  {testData.map((obj) => displayTagQuestion(obj, obj.id))}
+                  {/* {pdfText &&
+                  pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
+                </div>
+              )}
+
             </div>
           </div>
         )}

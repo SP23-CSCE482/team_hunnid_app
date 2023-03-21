@@ -26,12 +26,8 @@
     "next": "13.1.6",
     "pdfjs-dist": "2.5.207",
     "react": "18.2.0",
-<<<<<<< HEAD
+    "react-collapsed": "^3.6.0",
     "react-dom": "18.2.0",
     "request": "^2.88.2"
-=======
-    "react-collapsed": "^3.6.0",
-    "react-dom": "18.2.0"
->>>>>>> AIPL-9/HomePageStyling
   }
 }
