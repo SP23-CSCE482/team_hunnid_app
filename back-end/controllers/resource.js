@@ -34,14 +34,20 @@ const findResourcesByTagThroughWebscraping = (req, res, next) => {
               scrapedUrls.push(url);
             }
           });
-          const uniquescrapedUrls = Array.from(new Set(scrapedUrls)).slice(0,5)  
-          res.json(uniquescrapedUrls);
+          const uniquescrapedUrls = Array.from(new Set(scrapedUrls)).slice(0,5)
+
+          mongoResources = findResourcesByTag(req)
+          console.log(mongoResources)
+          res.json(uniquescrapedUrls)
+
         } else {
           console.error('Failed to fetch the web page: ', error);
           res.json({ Error: error });
         }
       }); 
 };
+
+
 
 
 

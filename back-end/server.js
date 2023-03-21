@@ -185,14 +185,14 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 }, function (error, response, body) {
                     console.log({body: body});
                     res.send({
-                        id: Math.random(), //done so the card can be either of style choice
+                        id: Math.random()*1, //done so the card can be either of style choice
                         status: true,
                         resources:  JSON.parse(body),
                         tag: tag,
                         question: [textArray]
                     });
                 });
-
+                
                 // const reccURL = await fetch({
                 //     url: recommendationURL, //on 3000 put your port no.
                 //     method: 'GET',
