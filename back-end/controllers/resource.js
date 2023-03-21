@@ -15,12 +15,25 @@ const youtube = google.youtube({
 //GET '/resource/findByTag/:tag'
 const findResourcesByTag = (req, res, next) => {
     let tagToSearch = req.params.tag; // will filter using the tags 
-    Resource.find({ tags: tagToSearch }, (err, data) => {
-        if (err || !data) {
-            return res.json({ Error: err });
-        }
-        return res.json(data);
-    })
+    // Resource.find({ tags: tagToSearch }, (err, data) => {
+    //     if (err || !data) {
+    //         return res.json({ Error: err });
+    //     }
+    //     return res.json(data);
+    // })
+    getRequest('http://localhost:3001/resource/findByTagThroughWebscraping/'+tagToSearch).then(function (body1) {
+      // do something with body1
+      res = body1
+    return getRequest('http://localhost:3001/resource/findByTagThroughWebscraping/:tag'+tagToSearch);
+    }).then(function (body2) {
+        
+        // do something with body2
+        return getRequest('http://www.test.com/api3');
+    }).then(function (body3) {
+        // do something with body3
+        //And so on...
+    });
+
 };
 
 //GET '/resource/findByTagThroughWebscraping/:tag'
@@ -84,7 +97,10 @@ const findVideoResources = (req, res, next) => {
     videos.forEach((video, index) => {
       console.log(`\n#${index + 1}: ${video.title}\nDescription: ${video.description}\nVideo ID: ${video.videoId}\nThumbnail URL: ${video.thumbnailUrl}`);
     });
-    return res.json(videos)
+
+    const urls = videos.map((video) => ( video.videoUrl ))
+
+    return res.json(urls)
   })
   .catch((error) => {
     console.error(error);
