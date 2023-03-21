@@ -185,7 +185,7 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 }, function (error, response, body) {
                     console.log({body: body});
                     res.send({
-                        id: 1,
+                        id: Math.random(), //done so the card can be either of style choice
                         status: true,
                         resources:  JSON.parse(body),
                         tag: tag,

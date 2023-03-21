@@ -254,6 +254,13 @@ function Home() {
               </p>
             )}
             <div className="upload-section">
+            {resourceArray && (
+                <div className="extracted-text-section">
+                  {resourceArray.map((obj) => displayTagQuestion(obj, obj.id))}
+                  {/* {pdfText &&
+                  pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
+                </div>
+              )}
               <form onSubmit={handleUploadedText}>
                   <label>
                     Input Question to Categorize:
@@ -262,9 +269,9 @@ function Home() {
                   </label>
                 <input type="submit" className="upload-file-button" value="Get Resources"/>
               </form>
-              {resourceArray && (
+              {pdfText && (
                 <div className="extracted-text-section">
-                  {resourceArray.map((obj) => displayTagQuestion(obj, obj.id))}
+                  {testData.map((obj) => displayTagQuestion(obj, obj.id))}
                   {/* {pdfText &&
                   pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
                 </div>
@@ -274,13 +281,7 @@ function Home() {
                 accept=".pdf"
                 updateFileCb={handleUploadedFile}
               />
-              {pdfText && (
-                <div className="extracted-text-section">
-                  {testData.map((obj) => displayTagQuestion(obj, obj.id))}
-                  {/* {pdfText &&
-                  pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
-                </div>
-              )}
+              
 
             </div>
           </div>
