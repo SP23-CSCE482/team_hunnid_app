@@ -87,6 +87,32 @@ const findVideoResources = (req, res, next) => {
   });
 };
 
+async function findAllResources(req, res) {
+  try {
+    // First API call
+    const result1 = await fetch('http://localhost:3002/resource/findByTagThroughWebscraping/' + req.params.tag);
+    if (!result1.ok) {
+      throw new Error('API call 1 failed');
+    }
+    const data1 = await result1.json();
+    console.log('Data from API call 1:', data1);
+
+    // Second API call
+    const result2 = await fetch('http://localhost:3002/resource/findVideoResources/' + req.params.tag);
+    if (!result2.ok) {
+      throw new Error('API call 2 failed');
+    }
+    const data2 = await result2.json();
+
+    // Process the results
+    const combinedData = { api1: data1, api2: data2 };
+    res.json(combinedData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+}
+
 
 
 //export controller functions CRUD Default
@@ -94,5 +120,6 @@ module.exports = {
     //get
     findResourcesByTag,
     findResourcesByTagThroughWebscraping,
-    findVideoResources
+    findVideoResources,
+    findAllResources
 };
