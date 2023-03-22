@@ -63,14 +63,24 @@ app.post('/pdfToText', async (req, res) => {
               console.log(data.toString().length)
               console.log('Success Child Process : ', data.toString())
 
+              let tempData = []
+              data = JSON.parse(data)
+              let itr = 0
+              for (elem in data) {
+                tempData.push({
+                  id: itr,
+                  tag: elem,
+                  question: data[elem],
+                  resources: ["Chapter Request 1", "Chapter Request 2"]                   // Insert your resource request here
+                })
+                itr += 1
+              }
+              console.log(tempData)
               res.send({
                 status: true,
                 message: 'Pdf is uploaded',
-                data: {
-                  name: pdf.name,
-                  size: pdf.size,
-                  text: [data.toString().split('HUNNID')],
-                },
+                data: tempData
+                ,
               })
             })
           } catch (err) {
@@ -89,6 +99,58 @@ app.post('/pdfToText', async (req, res) => {
     res.status(500).send(err)
   }
 })
+
+
+
+app.post('/reqQuestions', async (req, res) => {
+  try {
+    if (!req.files) {
+      res.send({
+        status: false,
+        message: 'No pdf uploaded',
+      })
+    } else {
+      let pdf = req.files.pdf
+      const filePath = `./uploads/${pdf.name}`
+      await pdf.mv(filePath)
+
+      getText(filePath).then(function (textArray) {
+        if (textArray.length > 0) {
+          // delete pdf file locally after we are done with it
+          fs.unlink(filePath, function (error) {
+            if (error) {
+              console.error(error)
+            }
+          })
+          console.log(typeof textArray)
+          console.log(textArray.length, ' is the returned Length.')
+
+          try {
+            textArray = textArray.split("Problem")
+            problemArr = []
+            for (elem in textArray) problemArr.push(elem.split("(a)")[0]);
+            res.send({
+              status: true,
+              message: 'Returning Problems',
+              data: problemArr
+            })
+          } catch (err) {
+            console.log('Failed Problem Parsing : ', err)
+          }
+        } else {
+          res.send({
+            status: false,
+            message: 'There was an issue parsing the pdf file',
+            text: ['Could not parse pdf file'],
+          })
+        }
+      })
+    }
+  } catch (err) {
+    res.status(500).send(err)
+  }
+})
+
 
 app.use('/', hunnidRoutes)
 

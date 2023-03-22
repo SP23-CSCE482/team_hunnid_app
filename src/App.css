@@ -212,3 +212,15 @@
 .smallcol {
   overflow-wrap: break-word;
 }
+
+input[type='checkbox'] {
+  -webkit-appearance:none;
+  width:40px;
+  height:40px;
+  background:rgb(172, 47, 47);
+  border-radius:10px;
+  border:2px solid #000000;
+}
+input[type='checkbox']:checked {
+  background: rgb(46, 141, 27);
+}
