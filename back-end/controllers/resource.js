@@ -6,6 +6,8 @@ const cheerio = require('cheerio');
 
 const { google } = require('googleapis');
 
+const customsearch = google.customsearch('v1');
+
 // Set up the client object
 const youtube = google.youtube({
   version: 'v3',
@@ -23,32 +25,51 @@ const findResourcesByTag = (req, res, next) => {
     })
 };
 
+// //GET '/resource/findByTagThroughWebscraping/:tag'
+// const findResourcesByTagThroughWebscraping = (req, res, next) => {
+//   let tagToSearch = req.params.tag; // will filter using the tags
+//   let searchTerm = 'calculus ';
+//   searchTerm += tagToSearch;
+//   console.log(searchTerm);
+//   const url = 'https://www.google.com/search?q=' + searchTerm;
+//   let scrapedUrls = []
+//   request(url, (error, response, html) => {
+//       if (!error && response.statusCode == 200) {
+//         const $ = cheerio.load(html);
+//         $('a').each((i, link) => {
+//           const href = link.attribs.href;
+//           if (href !== undefined && href.startsWith('/url?q=')) {
+//             const url = href.replace('/url?q=', '').split('&')[0];
+//             console.log(url + '\n');
+//             scrapedUrls.push(url);
+//           }
+//         });
+//         const uniquescrapedUrls = Array.from(new Set(scrapedUrls)).slice(0,5)  
+//         res.json(uniquescrapedUrls);
+//       } else {
+//         console.error('Failed to fetch the web page: ', error);
+//         res.json({ Error: error });
+//       }
+//     }); 
+// };
+
 //GET '/resource/findByTagThroughWebscraping/:tag'
-const findResourcesByTagThroughWebscraping = (req, res, next) => {
+const findResourcesByTagThroughWebscraping = async (req, res, next) => {
     let tagToSearch = req.params.tag; // will filter using the tags
     let searchTerm = 'calculus ';
     searchTerm += tagToSearch;
     console.log(searchTerm);
-    const url = 'https://www.google.com/search?q=' + searchTerm;
-    let scrapedUrls = []
-    request(url, (error, response, html) => {
-        if (!error && response.statusCode == 200) {
-          const $ = cheerio.load(html);
-          $('a').each((i, link) => {
-            const href = link.attribs.href;
-            if (href !== undefined && href.startsWith('/url?q=')) {
-              const url = href.replace('/url?q=', '').split('&')[0];
-              console.log(url + '\n');
-              scrapedUrls.push(url);
-            }
-          });
-          const uniquescrapedUrls = Array.from(new Set(scrapedUrls)).slice(0,5)  
-          res.json(uniquescrapedUrls);
-        } else {
-          console.error('Failed to fetch the web page: ', error);
-          res.json({ Error: error });
-        }
-      }); 
+    const result = await customsearch.cse.list({
+      auth: 'AIzaSyA2wIoZU7sdNoPRgPHt3b62TwX1aixZI4I',
+      cx: '31a4cf3e6f4b741a6',
+      q: searchTerm,
+      num: 5,
+      siteSearch: 'edu',
+      fileType: 'pdf'
+    });
+    
+    const urls = result.data.items.map(item => item.link);
+    res.json(urls);
 };
 
 const findVideoResources = (req, res, next) => {
@@ -106,6 +127,7 @@ async function findAllResources(req, res) {
 
     // Process the results
     const combinedData = { api1: data1, api2: data2 };
+    const resources = [combinedData.api1, combinedData.api2]
     res.json(combinedData);
   } catch (error) {
     console.error(error);
