@@ -5,7 +5,6 @@ const express = require ('express');
 const hunnidRoutes = require('./routes/hunnid'); // import the routes
 const resourceRoutes = require('./routes/resource');
 const fileUpload = require('express-fileupload');
-const cors = require('cors');
 const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -22,8 +21,8 @@ const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
 const recommendationURL2 = 'http://localhost:'+port+'/resource/findAllResources/'
 const recommendationURL3 = 'http://localhost:'+port+'/resource/findVideoResources/'
 
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('dev'));
@@ -35,9 +34,6 @@ app.use(fileUpload({
     },
   }),
 )
-
-const buildPath = path.join(__dirname, '..', 'build');
-app.use(express.static(buildPath));
 
 app.post('/rawPdf', async (req, res) => {
     try {

@@ -2,9 +2,6 @@
   "name": "CapstoneBackbone",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
     "@next/font": "13.1.6",
     "body-parser": "1.20.0",
