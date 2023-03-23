@@ -33,11 +33,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start-client": "react-scripts start",
-    "build": "react-scripts build && (cd back-end && npm install --force)",
-    "test": "react-scripts test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --coverage --watch",
     "eject": "react-scripts eject",
-    "start": "cd back-end && npm run start"
+    "lint": "eslint"
   },
   "browserslist": {
     "production": [
