@@ -21,6 +21,7 @@
     "pdfreader": "^3.0.0",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
+    "react-collapsed": "^3.6.0",
     "react-dom": "^18.0.0",
     "react-google-login": "^5.2.2",
     "react-router-dom": "^6.8.1",
@@ -32,12 +33,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "heroku-postbuild": "cd back-end && node server.js",
-    "build": "react-scripts build",
-    "test": "react-scripts test --coverage --watchAll",
+    "start-client": "react-scripts start",
+    "build": "react-scripts build && (cd back-end && npm install --force)",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint"
+    "start": "cd back-end && npm run start"
   },
   "browserslist": {
     "production": [

@@ -6,6 +6,7 @@ function TextUpload() {
   const handleUpload = () => {
     alert('Text uploaded')
   }
+  
   return (
     <form onSubmit={handleUpload}>
       <label>
