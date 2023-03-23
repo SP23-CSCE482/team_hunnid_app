@@ -5,8 +5,8 @@ import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
 import useCollapse from 'react-collapsed'
 const port = process.env.PORT || 3001;
-const url = 'http://localhost:'+port+'/pdfToText'
-const urlForText = 'http://localhost:'+port+'/TextBoxToRecommendation'
+const url = '/pdfToText'
+const urlForText = '/TextBoxToRecommendation'
 
 function Collapsible(props) {
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()
