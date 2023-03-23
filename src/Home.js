@@ -4,9 +4,10 @@ import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
 import useCollapse from 'react-collapsed'
+import { BASE_API_URL } from './utils/constants'
 const port = process.env.PORT || 3001;
-const url = '/pdfToText'
-const urlForText = '/TextBoxToRecommendation'
+const url = BASE_API_URL+'/pdfToText'
+const urlForText = BASE_API_URL+'/TextBoxToRecommendation'
 
 function Collapsible(props) {
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()

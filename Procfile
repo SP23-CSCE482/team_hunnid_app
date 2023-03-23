@@ -1,1 +1,1 @@
-release: pip install -r requirements.txt
+# release: pip install -r requirements.txt
