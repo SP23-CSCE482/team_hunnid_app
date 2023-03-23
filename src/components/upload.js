@@ -1,20 +1,18 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
+const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js')
 
 function FileUpload() {
   const handleUpload = () => {
     alert('File uploaded')
   }
   return (
-    <div className="FileUploadComp">
-      <form onSubmit={handleUpload}>
-        <h1 className="text-white">Upload a file</h1>
-        <input type="file" />
-        <Button variant="contained" type="submit">
-          Upload
-        </Button>
-      </form>
-    </div>
+    <form onSubmit={handleUpload}>
+      <input id="userPdf" type="file" />
+      <Button variant="contained" type="submit">
+        Upload
+      </Button>
+    </form>
   )
 }
 export default FileUpload

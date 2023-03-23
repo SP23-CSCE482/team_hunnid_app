@@ -1,3 +1,13 @@
+:root {
+  --dark_blue: #303247;
+  --peach: #fdcb98;
+  --forest_green: #324c30;
+  --secondary_green: #444d32;
+  --brown: #663200;
+}
+* {
+  font-family: 'Roboto Mono', monospace;
+}
 .App {
   text-align: center;
 }
@@ -11,8 +21,9 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-color: #282c34;
+  background-color: var(--dark_blue);
 }
+
 .Top-header {
   display: flex;
   flex-direction: row-reverse;
@@ -23,9 +34,206 @@
 }
 
 .App-background {
-  background-color: #282c34;
+  background-color: var(--dark_blue);
+}
+.signOutDiv {
+  background-color: var(--dark_blue);
+  flex-direction: row-reverse;
+}
+.buttonDiv {
+  background-color: var(--dark_blue);
+  padding-left: 30px;
+  padding-top: 30px;
+  align-items: flex-end;
+  justify-content: end;
+}
+
+.App-component {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  top: 50px;
+  height: 10px;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  display: 'block';
+  flex-direction: row-reverse;
+  align-items: 'center';
+  justify-content: 'center';
+  background-color: var(--dark_blue);
 }
 
 .Text-background {
   color: white;
+}
+
+.container {
+  min-height: 100vh;
+  padding: 0 0.5em;
+  display: block;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.upload-section {
+  flex: 20%;
+}
+
+.extracted-text-section {
+  background-color: var(--dark_blue);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 2rem;
+}
+
+.instructions {
+  width: 800px;
+  text-align: center;
+  margin: 10px;
+}
+.topic_instructions {
+  width: 800px;
+  text-align: center;
+  margin: 10px;
+}
+.signOutButton {
+  box-sizing: border-box;
+  background-color: var(--peach);
+  border: 2px solid var(--brown);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--brown);
+  overflow: hidden;
+  transition: color 250ms ease-in-out;
+  padding: 7px;
+  width: 150px;
+  float: right;
+  margin: 10px;
+}
+.card {
+  width: 250px;
+  flex-direction: row;
+  align-items: center;
+  background: var(--peach);
+  border: 2px solid var(--brown);
+}
+.card-body {
+  flex-direction: 'row';
+  flex: 1;
+  display: flex;
+  width: 1000px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.card-text {
+  flex: 1;
+  flex-wrap: wrap;
+  flex-shrink: 1;
+  width: 80%;
+  margin: 5px 0 5px 0;
+}
+.card-title {
+  font-weight: bold;
+  color: var(--brown);
+}
+.card img {
+  width: 100px;
+  border-radius: 50%;
+  padding: 5px;
+}
+.card-header {
+  text-align: center;
+}
+
+.result_card_primary {
+  margin: 20px 0 20px 0;
+  width: 1000px;
+  flex-direction: row;
+  align-items: center;
+  background: var(--peach);
+  border: 3px solid var(--brown);
+}
+.result_card_title_primary {
+  font-weight: bold;
+  color: var(--brown);
+}
+.result_card_text_primary {
+  font-weight: bold;
+  color: var(--brown);
+}
+
+.result_card_secondary {
+  margin-top: 5px;
+  width: 1000px;
+  flex-direction: column;
+  align-items: center;
+  background: var(--forest_green);
+  border: 3px solid var(--peach);
+}
+
+.result_card_title_secondary {
+  font-weight: bold;
+  color: var(--brown);
+}
+.result_card_text_secondary {
+  font-weight: bold;
+  color: var(--peach);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-wrap: break-word;
+  width: 50%;
+}
+.smallcol {
+  overflow-wrap: break-word;
+}
+
+.upload-file-button {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: var(--peach);
+  border: 2px solid var(--brown);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--brown);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 250ms ease-in-out;
+  font-family: 'Roboto Mono', monospace;
+  display: flex;
+  padding: 1.1em 2.8em;
+  margin: 0 auto;
 }
