@@ -6,6 +6,8 @@ const cheerio = require('cheerio');
 
 const { google } = require('googleapis');
 
+const port = process.env.PORT || 3001;
+
 // Set up the client object
 const youtube = google.youtube({
   version: 'v3',
@@ -14,26 +16,14 @@ const youtube = google.youtube({
 
 //GET '/resource/findByTag/:tag'
 const findResourcesByTag = (req, res, next) => {
-    let tagToSearch = req.params.tag; // will filter using the tags 
+  console.log('Calling findResourcesByTag')
+    // let tagToSearch = req.params.tag; // will filter using the tags 
     // Resource.find({ tags: tagToSearch }, (err, data) => {
     //     if (err || !data) {
     //         return res.json({ Error: err });
     //     }
     //     return res.json(data);
     // })
-    getRequest('http://localhost:3001/resource/findByTagThroughWebscraping/'+tagToSearch).then(function (body1) {
-      // do something with body1
-      res = body1
-    return getRequest('http://localhost:3001/resource/findByTagThroughWebscraping/:tag'+tagToSearch);
-    }).then(function (body2) {
-        
-        // do something with body2
-        return getRequest('http://www.test.com/api3');
-    }).then(function (body3) {
-        // do something with body3
-        //And so on...
-    });
-
 };
 
 //GET '/resource/findByTagThroughWebscraping/:tag'
@@ -107,10 +97,11 @@ const findVideoResources = (req, res, next) => {
   });
 };
 
+//GET '/resource/findAllResources/:tag'
 async function findAllResources(req, res) {
   try {
     // First API call
-    const result1 = await fetch('http://localhost:3002/resource/findByTagThroughWebscraping/' + req.params.tag);
+    const result1 = await fetch('http://localhost:'+port+'/resource/findByTagThroughWebscraping/' + req.params.tag);
     if (!result1.ok) {
       throw new Error('API call 1 failed');
     }
@@ -118,14 +109,15 @@ async function findAllResources(req, res) {
     console.log('Data from API call 1:', data1);
 
     // Second API call
-    const result2 = await fetch('http://localhost:3002/resource/findVideoResources/' + req.params.tag);
+    const result2 = await fetch('http://localhost:'+port+'/resource/findVideoResources/' + req.params.tag);
     if (!result2.ok) {
       throw new Error('API call 2 failed');
     }
     const data2 = await result2.json();
-
+    console.log('Data from API call 2:', data2[0,2]);
     // Process the results
-    const combinedData = { api1: data1, api2: data2 };
+    const combinedData =data1.concat(data2);
+    console.log('Combined Data is: '+combinedData)
     res.json(combinedData);
   } catch (error) {
     console.error(error);

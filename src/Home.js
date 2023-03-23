@@ -3,11 +3,11 @@ import React, { useContext, useState } from 'react'
 import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
-import TextUpload from  './components/textUpload'
-
 import useCollapse from 'react-collapsed'
-const url = 'http://localhost:3002/pdfToText'
-const urlForText = 'http://localhost:3002/TextBoxToRecommendation'
+import { eventNames } from '../back-end/models/hunnid'
+const port = process.env.PORT || 3001;
+const url = 'http://localhost:'+port+'/pdfToText'
+const urlForText = 'http://localhost:'+port+'/TextBoxToRecommendation'
 
 function Collapsible(props) {
   const { getCollapseProps, getToggleProps, isExpanded } = useCollapse()

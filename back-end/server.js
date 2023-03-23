@@ -15,7 +15,7 @@ var request = require('request');
 
 const app = express();
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3001;
 
 const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
 const recommendationURL2 = 'http://localhost:'+port+'/resource/findByTagThroughWebscraping/'
@@ -230,6 +230,6 @@ mongoose.connect(
     }
 );
 
-const listener = app.listen(process.env.PORT || 3002, () => {
+const listener = app.listen(process.env.PORT || 3001, () => {
   console.log('App listening on port ' + listener.address().port)
 })
