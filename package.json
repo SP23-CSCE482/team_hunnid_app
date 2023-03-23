@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && (cd back-end && npm install --force)",
     "test": "react-scripts test --coverage --watch",
     "eject": "react-scripts eject",
     "lint": "eslint"
