@@ -1,1 +1,1 @@
-# web: node back-end/server.js
+release: pip install -r requirements.txt
