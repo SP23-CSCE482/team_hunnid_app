@@ -4,9 +4,15 @@ import * as React from 'react'
 import Home from './Home'
 import { useEffect, useState } from 'react'
 import UserContext from './components/user'
+//import styled from 'styled-components';
 
-function App(props) {
+// Substitute with proper string according to api.
+
+function App() {
   const [user, setUser] = useState({})
+
+
+
   function handleSignOut(event) {
     setUser({}) // set user back to empty object
     document.getElementById('signInDiv').hidden = false
@@ -20,12 +26,12 @@ function App(props) {
   }
   useEffect(() => {
     /* global google*/
-    window.google?.accounts?.id?.initialize({
-      client_id: process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID,
+    window.google.accounts.id.initialize({
+      client_id: '521713186873-do0pk7f1oi7sc6r127jr3v01h2uk2jmc.apps.googleusercontent.com',
       callback: handleCallbackResponse,
     })
 
-    window.google?.accounts?.id?.renderButton(
+    window.google.accounts.id.renderButton(
       document.getElementById('signInDiv'),
       {
         theme: 'outline',
@@ -35,6 +41,7 @@ function App(props) {
 
     window.google.accounts.id.prompt()
   }, [])
+
   //If there is no user, show sign in button, if user, show home page
   return (
     <>
@@ -49,13 +56,17 @@ function App(props) {
           <div className="App-background" data-testid="signedin">
             <button
               type="button"
-              className="btn btn-light"
+              className="signOutButton"
               onClick={(e) => handleSignOut(e)}
             >
               Sign Out
             </button>
-            <h3 className="text-light ">{user.name}</h3>
-            <img className="rounded" src={user.picture}></img>
+            <div className="card">
+              <img src={user.picture} className="card-img-top" />
+              <div className="card-body">
+                <h5 className="card-title">{user.name}</h5>
+              </div>
+            </div>
           </div>
         )}
         <Home />
