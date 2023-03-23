@@ -301,7 +301,6 @@ function Home() {
                     <div className="text-upload-container">
                       <div className="form-group">
                         <label className="p-1">Upload an assignment?</label>
-
                         <PdfUpload
                           data-testid="FileUpload"
                           accept=".pdf"
