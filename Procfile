@@ -1,1 +1,1 @@
-web: cd back-end && npm install --force && node server.js
+web: node back-end/server.js
