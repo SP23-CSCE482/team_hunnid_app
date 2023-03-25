@@ -57,7 +57,7 @@ const findResourcesByTag = (req, res, next) => {
 //GET '/resource/findByTagThroughWebscraping/:tag'
 const findResourcesByTagThroughWebscraping = async (req, res, next) => {
     let tagToSearch = req.params.tag; // will filter using the tags
-    let searchTerm = 'calculus ';
+    let searchTerm = 'introduction to calculus for beginners ';
     searchTerm += tagToSearch;
     console.log(searchTerm);
     const result = await customsearch.cse.list({
