@@ -103,7 +103,7 @@ const findVideoResources = (req, res, next) => {
       console.log(`\n#${index + 1}: ${video.title}\nDescription: ${video.description}\nVideo ID: ${video.videoId}\nThumbnail URL: ${video.thumbnailUrl}`);
     });
 
-    const urls = videos.map((video) => ( video.videoUrl )).slice(0,3)
+    const urls = videos.map((video) => ( video.videoUrl ))
 
     return res.json(urls)
   })
