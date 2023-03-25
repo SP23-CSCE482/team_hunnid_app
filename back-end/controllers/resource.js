@@ -65,7 +65,7 @@ const findResourcesByTagThroughWebscraping = async (req, res, next) => {
       q: searchTerm,
       num: 5,
       siteSearch: 'edu',
-      fileType: 'pdf'
+      fileType: 'pdf,html'
     });
     
     const urls = result.data.items.map(item => item.link);
