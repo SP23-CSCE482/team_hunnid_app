@@ -1,5 +1,6 @@
 require('dotenv').config()
 
+const cors = require('cors');
 const mongoose = require('mongoose');
 const express = require ('express');
 const hunnidRoutes = require('./routes/hunnid'); // import the routes
@@ -21,6 +22,7 @@ const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
 const recommendationURL2 = 'http://localhost:'+port+'/resource/findAllResources/'
 const recommendationURL3 = 'http://localhost:'+port+'/resource/findVideoResources/'
 
+// app.use(cors()); //uncomment if building using seperate servers
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -187,7 +189,7 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
                 }, function (error, response, body) {
                     console.log({body: body});
                     res.send({
-                        id: Math.random(), //done so the card can be either of style choice
+                        id: Math.round(Math.random()), //done so the card can be either of style choice
                         status: true,
                         resources:  JSON.parse(body),
                         tag: tag,

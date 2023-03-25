@@ -56,21 +56,21 @@ const findResourcesByTag = (req, res, next) => {
 
 //GET '/resource/findByTagThroughWebscraping/:tag'
 const findResourcesByTagThroughWebscraping = async (req, res, next) => {
-    let tagToSearch = req.params.tag; // will filter using the tags
-    let searchTerm = 'introduction to calculus for beginners ';
-    searchTerm += tagToSearch;
-    console.log(searchTerm);
-    const result = await customsearch.cse.list({
-      auth: 'AIzaSyA2wIoZU7sdNoPRgPHt3b62TwX1aixZI4I',
-      cx: '31a4cf3e6f4b741a6',
-      q: searchTerm,
-      num: 5,
-      siteSearch: 'edu',
-      fileType: 'pdf'
-    });
-    
-    const urls = result.data.items.map(item => item.link);
-    res.json(urls);
+  let tagToSearch = req.params.tag; // will filter using the tags
+  let searchTerm = 'introduction to calculus for beginners ';
+  searchTerm += tagToSearch;
+  console.log(searchTerm);
+  const result = await customsearch.cse.list({
+    auth: 'AIzaSyA2wIoZU7sdNoPRgPHt3b62TwX1aixZI4I',
+    cx: '31a4cf3e6f4b741a6',
+    q: searchTerm,
+    num: 10,
+    siteSearch: 'edu',
+    fileType: 'pdf,html'
+  });
+  
+  const urls = result.data.items.map(item => item.link);
+  res.json(urls);
 };
 
 const findVideoResources = (req, res, next) => {
@@ -103,7 +103,7 @@ const findVideoResources = (req, res, next) => {
       console.log(`\n#${index + 1}: ${video.title}\nDescription: ${video.description}\nVideo ID: ${video.videoId}\nThumbnail URL: ${video.thumbnailUrl}`);
     });
 
-    const urls = videos.map((video) => ( video.videoUrl ))
+    const urls = videos.map((video) => ( video.videoUrl )).slice(0,3)
 
     return res.json(urls)
   })
