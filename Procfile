@@ -1,1 +1,1 @@
-web: node server.js
+# release: pip install -r requirements.txt
