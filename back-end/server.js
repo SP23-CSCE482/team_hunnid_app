@@ -122,7 +122,7 @@ app.post('/pdfToText', async (req, res) => {
                         console.log("Testing Child Process : ");
 
                         const { spawn } = require('child_process');
-                        const pyProg = spawn('python', ['./modelQuery.py', textArray]);
+                        const pyProg = spawn('python3', ['./modelQuery.py', textArray]);
 
                         pyProg.stdout.on('data', async function (data) {
                             let tempData = []
@@ -243,7 +243,7 @@ app.post('/reqResults', async (req, res) => {
     try {
         console.log('Testing Child Process')
         const { spawn } = require('child_process')
-        const pyProg = spawn('python', ['./modelQueryJSON.py', req.body.data])
+        const pyProg = spawn('python3', ['./modelQueryJSON.py', req.body.data])
       
         pyProg.stdout.on('data', async function (data) {
         console.log(typeof data)
