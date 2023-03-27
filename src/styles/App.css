@@ -83,13 +83,12 @@
 
 .upload-section {
   flex: 20%;
+  align-items: center;
 }
 
 .extracted-text-section {
   background-color: var(--dark_blue);
   flex: 1;
-  display: flex;
-  justify-content: center;
 }
 
 .title {

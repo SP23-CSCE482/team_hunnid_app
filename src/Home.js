@@ -5,10 +5,7 @@ import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
 import useCollapse from 'react-collapsed'
 import { BASE_API_URL } from './utils/constants'
-const port = process.env.PORT || 3001;
-const url = BASE_API_URL+'/pdfToText'
 const urlForText = BASE_API_URL+'/TextBoxToRecommendation'
-const urlpdfToText = BASE_API_URL+'/pdfToText'
 const urlreqQuestions = BASE_API_URL+'/reqQuestions'
 const urlreqResults = BASE_API_URL+'/reqResults'
 
@@ -96,7 +93,7 @@ function Home() {
   }
 
   const displayResources = (resources) => {
-    console.log(resources.toString())
+    console.log(resources)
     return resources.toString().includes('http') ? (
       <li>
         <a
@@ -219,7 +216,7 @@ function Home() {
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
                   <ol>
-                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
+                    {(state == 1) ? <ol>{obj.resources.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
                   </ol>
                 </h5>
               </div>
@@ -244,7 +241,7 @@ function Home() {
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
                   <ol>
-                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
+                    {(state == 1) ? <ol>{obj.resources.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
                   </ol>
                 </h5>
               </div>
@@ -281,7 +278,7 @@ function Home() {
             <img src={hunnidpng} width={250} />
             {!pdfText && !pdfQuestions && (
               <p className={'instructions'}>
-                Upload your assignment below, and we&apos;ll recommend you study
+                Upload your assignment below or a single question you would like to know more about, and we&apos;ll recommend you study
                 materials that best suit your needs.
               </p>
             )}
@@ -294,13 +291,15 @@ function Home() {
             
             <div className="upload-section">
               {resourceArray && (
-                <div className="extracted-text-section">
+                <div className="extracted-text-section ">
                   {resourceArray.map((obj) => displaySingleQuestion(obj, obj.id))}
                 </div>
               )}
               <form onSubmit={handleUploadedText}>
+
+                  <p className={'instructions'}> Input Question to Categorize:</p>
                   <label>
-                    Input Question to Categorize:
+                    
                     <textarea id="questionToCategorize" rows="4" cols="50">
                     </textarea>
                   </label>
