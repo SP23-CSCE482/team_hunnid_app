@@ -2,27 +2,18 @@ import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import '../styles/pdf-upload.css'
 
-const PdfUpload = ({
+const QuestionsUpload = ({
   label,
-  updateFileCb,
-  maxFileSizeInBytes = 500000,
+  updateQuestionsCB,
   ...otherProps
 }) => {
-  const fileInputField = useRef(null)
 
   const handleUploadBtnClick = () => {
-    fileInputField.current.click()
+    // Takes all the information
   }
 
-  const handleNewFileUpload = (e) => {
-    const { files: newFile } = e.target
-    if (newFile.length) {
-      callUpdateFilesCb(newFile)
-    }
-  }
-
-  const callUpdateFilesCb = (file) => {
-    updateFileCb(file)
+  const callUpdateQuestionsCB = () => {
+    updateQuestionsCB(file)
   }
 
   return (
@@ -39,17 +30,16 @@ const PdfUpload = ({
         type="file"
         title=""
         value=""
-        onChange={handleNewFileUpload}
+        onChange={callUpdateQuestionsCB}
         ref={fileInputField}
         {...otherProps}
       />
     </div>
   )
 }
-PdfUpload.propTypes = {
+QuestionsUpload.propTypes = {
   label: PropTypes.any,
   updateFileCb: PropTypes.any,
-  maxFileSizeInBytes: PropTypes.any,
 }
 
-export default PdfUpload
+export default QuestionsUpload
