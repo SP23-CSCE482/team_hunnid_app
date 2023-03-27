@@ -102,18 +102,38 @@ app.post('/pdfToText', async (req, res) => {
 
 
 app.post('/reqResults', async (req, res) => {
-  console.log(JSON.parse(req.body.data))
-  console.log("WEW")
+  console.log(JSON.parse(req.body.data));
+  console.log(req.body.data);
   try {
-    res.send({
-      status: true,
-      message: "Q",
-      data: ["NULL"]
-    })
+    const { spawn } = require('child_process')
+    const pyProg = spawn('python3', ['./modelQueryJSON.py', req.body.data])
 
+    pyProg.stdout.on('data', function (data) {
+      console.log(typeof data)
+      console.log('Success Child Process : ', data.toString())
+
+      let tempData = []
+      data = JSON.parse(data)
+      let itr = 0
+      for (elem in data) {
+        tempData.push({
+          id: itr,
+          tag: elem,
+          question: data[elem],
+          resources: ["Chapter Request 1", "Chapter Request 2"]                   // Insert your resource request here
+        })
+        itr += 1
+      }
+      console.log(tempData)
+      res.send({
+        status: true,
+        message: 'Sent',
+        data: tempData
+        ,
+      })
+    })
   } catch (err) {
     console.log('Failed Child Process : ', err)
-    res.status(500).send(err)
   }
 })
 

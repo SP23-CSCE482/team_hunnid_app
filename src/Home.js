@@ -68,14 +68,10 @@ function Home() {
     let formData = new FormData()
 
     let temp = document.getElementsByClassName('checkbox')
-    console.log(temp);
     let tempData = []
     for (let itr = 0; itr < temp.length; itr++) {
-      console.log(temp[itr].value);
-      (temp[itr].value == 'on') ? tempData.push({id: itr,question: pdfQuestions[itr].question.toString()}) : false
+      (temp[itr].checked) ? tempData.push({id: itr,question: pdfQuestions[itr].question.toString().substring(3)}) : false
     }
-    console.log(tempData);
-
     formData.append('data', JSON.stringify(tempData))
     const requestOptions = {
       method: 'POST',
@@ -87,6 +83,7 @@ function Home() {
       .then((response) => response.text())
       .then((result) => {
         setPdfQuestions(null)
+        console.log("Here")
         setPdfText(JSON.parse(result).data)
       })
       .catch((error) => console.log('error', error))
