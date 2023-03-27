@@ -101,6 +101,43 @@ app.post('/pdfToText', async (req, res) => {
 })
 
 
+app.post('/reqResults', async (req, res) => {
+  try {
+      const { spawn } = require('child_process')
+      const pyProg = spawn('python3', ['./modelQuery.py', textArray])
+
+      pyProg.stdout.on('data', function (data) {
+        console.log(typeof data)
+        console.log(data.toString().length)
+        console.log('Success Child Process : ', data.toString())
+
+        let tempData = []
+        data = JSON.parse(data)
+        let itr = 0
+        for (elem in data) {
+          tempData.push({
+            id: itr,
+            tag: elem,
+            question: data[elem],
+            resources: ["Chapter Request 1", "Chapter Request 2"]                   // Insert your resource request here
+          })
+          itr += 1
+        }
+        console.log(tempData)
+        res.send({
+          status: true,
+          message: 'Pdf is uploaded',
+          data: tempData
+          ,
+        })
+      })
+
+  } catch (err) {
+    console.log('Failed Child Process : ', err)
+    res.status(500).send(err)
+  }
+})
+
 
 app.post('/reqQuestions', async (req, res) => {
   try {
@@ -126,13 +163,17 @@ app.post('/reqQuestions', async (req, res) => {
           console.log(textArray.length, ' is the returned Length.')
 
           try {
-            textArray = textArray.split("Problem")
-            problemArr = []
-            for (elem in textArray) problemArr.push(elem.split("(a)")[0]);
+            let pdfTextArray = textArray.split("Problem")
+            let tempData = [];
+            let pItr = 1;
+            for (let itr = 0; itr < pdfTextArray.length; itr++) {
+              tempArr = pdfTextArray[itr].split("(a)");
+              (tempArr.length > 1) ? tempData.push({ id: pItr, tag: "Problem " + (pItr++).toString(), question: [tempArr[0]], resources: ["NULL"] }) : 0;
+            }
             res.send({
               status: true,
               message: 'Returning Problems',
-              data: problemArr
+              data: tempData
             })
           } catch (err) {
             console.log('Failed Problem Parsing : ', err)

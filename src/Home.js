@@ -4,7 +4,10 @@ import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
 import useCollapse from 'react-collapsed'
-const url = 'http://localhost:3001/pdfToText'
+
+const urlpdfToText = 'http://localhost:3001/pdfToText'
+const urlreqQuestions = 'http://localhost:3001/reqQuestions'
+const urlreqResults = 'http://localhost:3001/reqResults'
 
 function Collapsible(props) {
   const [isExpanded, setExpanded] = useState(props.curState)
@@ -14,7 +17,7 @@ function Collapsible(props) {
   }
   return props.style === 1 ? (
     <div className="result_card_primary">
-      <div className="card-header" {...getToggleProps({onClick: handleOnClick})}>
+      <div className="card-header" {...getToggleProps({ onClick: handleOnClick })}>
         {props.tag}
       </div>
       <div {...getCollapseProps()}>
@@ -23,7 +26,7 @@ function Collapsible(props) {
     </div>
   ) : (
     <div className="result_card_secondary">
-      <div className="card-header" {...getToggleProps({onClick: handleOnClick})}>
+      <div className="card-header" {...getToggleProps({ onClick: handleOnClick })}>
         {props.tag}
       </div>
       <div {...getCollapseProps()}>
@@ -53,14 +56,33 @@ function Home() {
       redirect: 'follow',
     }
 
-    fetch(url, requestOptions)
+    fetch(urlreqQuestions, requestOptions)
       .then((response) => response.text())
       .then((result) => {
-        setPdfText(JSON.parse(result).data)
+        setPdfText(null)
+        setPdfQuestions(JSON.parse(result).data)
       })
       .catch((error) => console.log('error', error))
   }
 
+  const handleQuestionSubmission = (file) => {
+    let formData = new FormData()
+    formData.append('data', data)
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow',
+    }
+
+    fetch(urlreqResults, requestOptions)
+      .then((response) => response.text())
+      .then((result) => {
+        setPdfQuestions(null)
+        setPdfText(JSON.parse(result).data)
+      })
+      .catch((error) => console.log('error', error))
+  }
 
   const displayResources = (resources) => {
     console.log(resources.toString())
@@ -89,23 +111,22 @@ function Home() {
   const displayTagQuestion = (obj, id, expanded, state) => {
     return id % 2 === 1 ? (
       <Collapsible style={0} tag={obj.tag} curState={expanded}>
-        <input type="checkbox" name={id.toString() + "cMark"}></input>
         <div className="card-body">
           <div className="row">
             <div className="column">
-              <h4>Related Questions Missed</h4>
+              <h4>{(state == 0) ? "Question" : "Related Questions Missed"}</h4>
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
-                  <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
+                  {(state == 0) ? <p>{displayQuestions(obj.question[0].substring(3))}</p> : <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>}
                 </h5>
               </div>
             </div>
             <div className="column">
-              <h4>Recommended Resources</h4>
+              <h4>{(state == 1) ? "Recommended Resources" : "Mark for Model Recommendation"}</h4>
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
                   <ol>
-                    {obj.resources.map((obj) => displayResources(obj, obj.id))}
+                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input type="checkbox" name={id.toString() + "cMark"}></input>}
                   </ol>
                 </h5>
               </div>
@@ -115,23 +136,22 @@ function Home() {
       </Collapsible>
     ) : (
       <Collapsible style={1} tag={obj.tag} curState={expanded}>
-        <input type="checkbox" name={id.toString() + "cMark"}></input>
         <div className="card-body">
           <div className="row">
             <div className="column">
-              <h4>Related Questions Missed</h4>
+              <h4>{(state == 0) ? "Question" : "Related Questions Missed"}</h4>
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
-                  <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
+                  {(state == 0) ? <p>{displayQuestions(obj.question[0].substring(3))}</p> : <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>}
                 </h5>
               </div>
             </div>
             <div className="column">
-              <h4>Recommended Resources</h4>
+              <h4>{(state == 1) ? "Recommended Resources" : "Mark for Model Recommendation"}</h4>
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
                   <ol>
-                    {obj.resources.map((obj) => displayResources(obj, obj.id))}
+                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input type="checkbox" name={id.toString() + "cMark"}></input>}
                   </ol>
                 </h5>
               </div>
@@ -182,15 +202,22 @@ function Home() {
 
               {pdfQuestions && (
                 <div className="extracted-text-section">
-                  {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, false))}
+                  {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, false, 0))}
                 </div>
               )}
 
               {pdfText && (
                 <div className="extracted-text-section">
-                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id, true))}
+                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id, true, 1))}
                 </div>
               )}
+
+              {!pdfText && (
+                <PdfUpload
+                  data-testid="Submit Questions"
+                  accept=".pdf"
+                  updateFileCb={handleQuestionSubmission}
+                />)}
 
               {!pdfQuestions && (
                 <PdfUpload
