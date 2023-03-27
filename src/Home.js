@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/App.css'
 import React, { useContext, useState } from 'react'
 import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
@@ -41,7 +41,6 @@ Collapsible.defaultProps = {
 function Home() {
   const [pdfText, setPdfText] = useState(null)
   const [pdfQuestions, setPdfQuestions] = useState(null)
-
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
 
@@ -67,8 +66,17 @@ function Home() {
 
   const handleQuestionSubmission = (file) => {
     let formData = new FormData()
-    formData.append('data', data)
 
+    let temp = document.getElementsByClassName('checkbox')
+    console.log(temp);
+    let tempData = []
+    for (let itr = 0; itr < temp.length; itr++) {
+      console.log(temp[itr].value);
+      (temp[itr].value == 'on') ? tempData.push({id: itr,question: pdfQuestions[itr].question.toString()}) : false
+    }
+    console.log(tempData);
+
+    formData.append('data', JSON.stringify(tempData))
     const requestOptions = {
       method: 'POST',
       body: formData,
@@ -126,7 +134,7 @@ function Home() {
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
                   <ol>
-                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input type="checkbox" name={id.toString() + "cMark"}></input>}
+                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
                   </ol>
                 </h5>
               </div>
@@ -151,7 +159,7 @@ function Home() {
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
                   <ol>
-                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input type="checkbox" name={id.toString() + "cMark"}></input>}
+                    {(state == 1) ? <ol>{obj.question.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
                   </ol>
                 </h5>
               </div>
@@ -202,22 +210,15 @@ function Home() {
 
               {pdfQuestions && (
                 <div className="extracted-text-section">
-                  {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, false, 0))}
+                  {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, true, 0))}
                 </div>
               )}
 
               {pdfText && (
                 <div className="extracted-text-section">
-                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id, true, 1))}
+                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id, false, 1))}
                 </div>
               )}
-
-              {!pdfText && (
-                <PdfUpload
-                  data-testid="Submit Questions"
-                  accept=".pdf"
-                  updateFileCb={handleQuestionSubmission}
-                />)}
 
               {!pdfQuestions && (
                 <PdfUpload
@@ -225,6 +226,16 @@ function Home() {
                   accept=".pdf"
                   updateFileCb={handleUploadedFile}
                 />)}
+
+              {!pdfText && pdfQuestions && (
+                <div className="file-upload-container">
+
+                  <button type="submit" value="Submit" className="upload-file-button" onClick={handleQuestionSubmission}>
+                    <span>Send to Model</span>
+                  </button>
+
+                </div>
+              )}
 
             </div>
           </div>
