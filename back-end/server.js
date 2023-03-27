@@ -20,9 +20,8 @@ const port = process.env.PORT || 3001;
 
 const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
 const recommendationURL2 = 'http://localhost:'+port+'/resource/findAllResources/'
-const recommendationURL3 = 'http://localhost:'+port+'/resource/findVideoResources/'
 
-app.use(cors()); //uncomment if building using seperate servers
+// app.use(cors()); //uncomment if building using seperate servers
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
