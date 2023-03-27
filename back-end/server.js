@@ -22,7 +22,7 @@ const recommendationURL = 'http://localhost:'+port+'/resource/findByTag/'
 const recommendationURL2 = 'http://localhost:'+port+'/resource/findAllResources/'
 const recommendationURL3 = 'http://localhost:'+port+'/resource/findVideoResources/'
 
-// app.use(cors()); //uncomment if building using seperate servers
+app.use(cors()); //uncomment if building using seperate servers
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -105,11 +105,9 @@ app.post('/pdfToText', async (req, res) => {
                 message: 'No pdf uploaded'
             });
         } else {
-            
             let pdf = req.files.pdf;
             const filePath = `./uploads/${pdf.name}`;
             await pdf.mv(filePath);
-
             getText(filePath).then(function(textArray) {
                 if(textArray.length > 0) {
                     // delete pdf file locally after we are done with it
@@ -126,39 +124,59 @@ app.post('/pdfToText', async (req, res) => {
                         const { spawn } = require('child_process');
                         const pyProg = spawn('python', ['./modelQuery.py', textArray]);
 
-                        pyProg.stdout.on('data', function (data) {
-
-              let tempData = []
-              data = JSON.parse(data)
-              let itr = 0
-              for (elem in data) {
-                tempData.push({
-                  id: itr,
-                  tag: elem,
-                  question: data[elem],
-                  resources: ["Chapter Request 1", "Chapter Request 2"]                   // Insert your resource request here
+                        pyProg.stdout.on('data', async function (data) {
+                            let tempData = []
+                            data = JSON.parse(data)
+                            let itr = 0
+                            for (elem in data) {
+                                // request({
+                                //     url: recommendationURL2+tag, //on 3000 put your port no.
+                                //     method: 'GET',
+                                // }, function (error, response, body) {
+                                //     console.log({body: body});
+                                //     res.send({
+                                //         id: Math.round(Math.random()), //done so the card can be either of style choice
+                                //         status: true,
+                                //         resources:  JSON.parse(body),
+                                //         tag: tag,
+                                //         question: [textArray]
+                                //     });
+                                // });
+                                const result = await fetch(recommendationURL2+elem);
+                                if (!result.ok) {
+                                  throw new Error('API call 2 failed');
+                                }
+                                const resourcesArray = await result.json();
+                                console.log()
+                                tempData.push({
+                                id: itr,
+                                tag: elem,
+                                question: data[elem],
+                                resources: resourcesArray                // Insert your resource request here
+                                })
+                                itr += 1
+                            }
+                            console.log(tempData)
+                            res.send({
+                                status: true,
+                                message: 'Pdf is uploaded',
+                                data: tempData
+                                ,
+                            })
+                        })
+                    } catch (err) {
+                        console.log('Failed Child Process : ', err)
+                    }
+                } else {
+                res.send({
+                    status: false,
+                    message: 'There was an issue parsing the pdf file',
+                    text: ['Could not parse pdf file'],
                 })
-                itr += 1
-              }
-              console.log(tempData)
-              res.send({
-                status: true,
-                message: 'Pdf is uploaded',
-                data: tempData
-                ,
-              })
+                }
             })
-          } catch (err) {
-            console.log('Failed Child Process : ', err)
-          }
-        } else {
-          res.send({
-            status: false,
-            message: 'There was an issue parsing the pdf file',
-            text: ['Could not parse pdf file'],
-          })
         }
-} catch (err) {
+    } catch (err) {
     res.status(500).send(err)
   }
 })

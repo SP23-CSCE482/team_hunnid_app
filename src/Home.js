@@ -208,23 +208,20 @@ function Home() {
                 topic to see some related resources we recommend.
               </p>
             )}
-            <div className="upload-section">
             {resourceArray && (
-                <div className="extracted-text-section">
-                  {resourceArray.map((obj) => displayTagQuestion(obj, obj.id))}
-                  {/* {pdfText &&
-                  pdfText.map((page, index) => <p key={index}>{page}</p>)} */}
-                </div>
-              )}
-              <form onSubmit={handleUploadedText}>
-                  <label>
-                    Input Question to Categorize:
-                    <textarea id="questionToCategorize" rows="4" cols="50">
-                    </textarea>
-                  </label>
-                <input type="submit" className="upload-file-button" value="Get Resources"/>
-              </form>
-
+              <div className="extracted-text-section">
+                {resourceArray.map((obj) => displayTagQuestion(obj, obj.id))}
+              </div>
+            )}
+            <form onSubmit={handleUploadedText}>
+                <label>
+                  Input Question to Categorize:
+                  <textarea id="questionToCategorize" rows="4" cols="50">
+                  </textarea>
+                </label>
+              <input type="submit" className="upload-file-button" value="Get Resources"/>
+            </form>
+            <div className="upload-section">
               {pdfQuestions && (
                 <div className="extracted-text-section">
                   {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, false))}
