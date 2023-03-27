@@ -7,11 +7,14 @@ import useCollapse from 'react-collapsed'
 const url = 'http://localhost:3001/pdfToText'
 
 function Collapsible(props) {
-  const [isExpanded, setExpanded] = useState(true)
+  const [isExpanded, setExpanded] = useState(props.curState)
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
+  function handleOnClick() {
+    setExpanded(!isExpanded);
+  }
   return props.style === 1 ? (
     <div className="result_card_primary">
-      <div className="card-header" {...getToggleProps()}>
+      <div className="card-header" {...getToggleProps({onClick: handleOnClick})}>
         {props.tag}
       </div>
       <div {...getCollapseProps()}>
@@ -20,7 +23,7 @@ function Collapsible(props) {
     </div>
   ) : (
     <div className="result_card_secondary">
-      <div className="card-header" {...getToggleProps()}>
+      <div className="card-header" {...getToggleProps({onClick: handleOnClick})}>
         {props.tag}
       </div>
       <div {...getCollapseProps()}>
@@ -29,33 +32,9 @@ function Collapsible(props) {
     </div>
   )
 }
-
-function NonCollapsible(props) {
-
-  const [isExpanded, setExpanded] = useState(true)
-  const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
-
-  return props.style === 1 ? (
-    <div className="result_card_primary">
-      <div className="card-header" {...getToggleProps()}>
-        {props.tag}
-      </div>
-      <div {...getCollapseProps()}>
-        <div className="content">{props.children}</div>
-      </div>
-    </div>
-  ) : (
-    <div className="result_card_secondary">
-      <div className="card-header" {...getToggleProps()}>
-        {props.tag}
-      </div>
-      <div {...getCollapseProps()}>
-        <div className="content">{props.children}</div>
-      </div>
-    </div>
-  )
+Collapsible.defaultProps = {
+  curState: false
 }
-
 function Home() {
   const [pdfText, setPdfText] = useState(null)
   const [pdfQuestions, setPdfQuestions] = useState(null)
@@ -107,9 +86,9 @@ function Home() {
     return <li>{question}</li>
   }
 
-  const displayTagQuestion = (obj, id) => {
+  const displayTagQuestion = (obj, id, expanded, state) => {
     return id % 2 === 1 ? (
-      <Collapsible style={0} tag={obj.tag}>
+      <Collapsible style={0} tag={obj.tag} curState={expanded}>
         <input type="checkbox" name={id.toString() + "cMark"}></input>
         <div className="card-body">
           <div className="row">
@@ -135,63 +114,7 @@ function Home() {
         </div>
       </Collapsible>
     ) : (
-      <Collapsible style={1} tag={obj.tag}>
-        <input type="checkbox" name={id.toString() + "cMark"}></input>
-        <div className="card-body">
-          <div className="row">
-            <div className="column">
-              <h4>Related Questions Missed</h4>
-              <div className="smallcol">
-                <h5 className="result_card_text_primary">
-                  <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
-                </h5>
-              </div>
-            </div>
-            <div className="column">
-              <h4>Recommended Resources</h4>
-              <div className="smallcol">
-                <h5 className="result_card_text_primary">
-                  <ol>
-                    {obj.resources.map((obj) => displayResources(obj, obj.id))}
-                  </ol>
-                </h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Collapsible>
-    )
-  }
-
-  const displayCheckmarkers = (obj, id) => {
-    return id % 2 === 1 ? (
-      <Collapsible style={0} tag={obj.tag}>
-        <input type="checkbox" name={id.toString() + "cMark"}></input>
-        <div className="card-body">
-          <div className="row">
-            <div className="column">
-              <h4>Related Questions Missed</h4>
-              <div className="smallcol">
-                <h5 className="result_card_text_secondary">
-                  <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
-                </h5>
-              </div>
-            </div>
-            <div className="column">
-              <h4>Recommended Resources</h4>
-              <div className="smallcol">
-                <h5 className="result_card_text_secondary">
-                  <ol>
-                    {obj.resources.map((obj) => displayResources(obj, obj.id))}
-                  </ol>
-                </h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Collapsible>
-    ) : (
-      <Collapsible style={1} tag={obj.tag}>
+      <Collapsible style={1} tag={obj.tag} curState={expanded}>
         <input type="checkbox" name={id.toString() + "cMark"}></input>
         <div className="card-body">
           <div className="row">
@@ -259,13 +182,13 @@ function Home() {
 
               {pdfQuestions && (
                 <div className="extracted-text-section">
-                  {pdfQuestions.map((obj) => displayCheckmarkers(obj, obj.id))}
+                  {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, false))}
                 </div>
               )}
 
               {pdfText && (
                 <div className="extracted-text-section">
-                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id))}
+                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id, true))}
                 </div>
               )}
 
