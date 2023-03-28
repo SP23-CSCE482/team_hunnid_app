@@ -13,6 +13,8 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^13.5.0",
     "buffer": "^6.0.3",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.7",
     "gapi-script": "^1.2.0",
     "jwt-decode": "^3.1.2",
     "path-browserify": "^1.0.1",
@@ -45,10 +47,13 @@
       "not dead",
       "not op_mini all"
     ],
-    "development": [  
+    "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.0.0"
   }
 }

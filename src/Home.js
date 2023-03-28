@@ -3,21 +3,26 @@ import React, { useContext, useState } from 'react'
 import UserContext from './components/user'
 import hunnidpng from './resources/hunnidpng.png'
 import PdfUpload from './components/pdfUpload'
+import TextUpload from './components/textUpload'
+
 import useCollapse from 'react-collapsed'
 import { BASE_API_URL } from './utils/constants'
-const urlForText = BASE_API_URL+'/TextBoxToRecommendation'
-const urlreqQuestions = BASE_API_URL+'/reqQuestions'
-const urlreqResults = BASE_API_URL+'/reqResults'
+const urlForText = BASE_API_URL + '/TextBoxToRecommendation'
+const urlreqQuestions = BASE_API_URL + '/reqQuestions'
+const urlreqResults = BASE_API_URL + '/reqResults'
 
-function Collapsible(props) {
+export function Collapsible(props) {
   const [isExpanded, setExpanded] = useState(props.curState)
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
   function handleOnClick() {
-    setExpanded(!isExpanded);
+    setExpanded(!isExpanded)
   }
   return props.style === 1 ? (
     <div className="result_card_primary">
-      <div className="card-header" {...getToggleProps({ onClick: handleOnClick })}>
+      <div
+        className="card-header"
+        {...getToggleProps({ onClick: handleOnClick })}
+      >
         {props.tag}
       </div>
       <div {...getCollapseProps()}>
@@ -26,7 +31,10 @@ function Collapsible(props) {
     </div>
   ) : (
     <div className="result_card_secondary">
-      <div className="card-header" {...getToggleProps({ onClick: handleOnClick })}>
+      <div
+        className="card-header"
+        {...getToggleProps({ onClick: handleOnClick })}
+      >
         {props.tag}
       </div>
       <div {...getCollapseProps()}>
@@ -36,7 +44,7 @@ function Collapsible(props) {
   )
 }
 Collapsible.defaultProps = {
-  curState: false
+  curState: false,
 }
 function Home() {
   const [pdfText, setPdfText] = useState(null)
@@ -73,7 +81,12 @@ function Home() {
     let temp = document.getElementsByClassName('checkbox')
     let tempData = []
     for (let itr = 0; itr < temp.length; itr++) {
-      (temp[itr].checked) ? tempData.push({id: itr,question: pdfQuestions[itr].question.toString().substring(3)}) : false
+      temp[itr].checked
+        ? tempData.push({
+            id: itr,
+            question: pdfQuestions[itr].question.toString().substring(3),
+          })
+        : false
     }
     formData.append('data', JSON.stringify(tempData))
     const requestOptions = {
@@ -86,7 +99,7 @@ function Home() {
       .then((response) => response.text())
       .then((result) => {
         setPdfQuestions(null)
-        console.log("Here")
+        console.log('Here')
         setPdfText(JSON.parse(result).data)
       })
       .catch((error) => console.log('error', error))
@@ -98,7 +111,7 @@ function Home() {
       <li>
         <a
           className="card-text"
-          href = {resources.toString()}
+          href={resources.toString()}
           target="_blank"
           rel="noreferrer noopener"
         >
@@ -115,7 +128,6 @@ function Home() {
   const displayQuestions = (question) => {
     return <li>{question}</li>
   }
-
   const displaySingleQuestion = (obj, id) => {
     console.log(obj)
     return id % 2 === 1 ? (
@@ -176,7 +188,10 @@ function Home() {
 
     event.preventDefault()
     let formData = new FormData()
-    formData.append("question",document.getElementById('questionToCategorize').value)
+    formData.append(
+      'question',
+      document.getElementById('questionToCategorize').value,
+    )
     const requestOptions = {
       method: 'POST',
       body: formData,
@@ -192,7 +207,7 @@ function Home() {
         console.log(resourceArray)
       })
       .catch((error) => console.log('error', error))
-      document.getElementById('questionToCategorize').value =''
+    document.getElementById('questionToCategorize').value = ''
   }
   //for
 
@@ -204,19 +219,35 @@ function Home() {
         <div className="card-body">
           <div className="row">
             <div className="column">
-              <h4>{(state == 0) ? "Question" : "Related Questions Missed"}</h4>
+              <h4>{state == 0 ? 'Question' : 'Related Questions Missed'}</h4>
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
-                  {(state == 0) ? <p>{displayQuestions(obj.question[0].substring(3))}</p> : <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>}
+                  {state == 0 ? (
+                    <p>{displayQuestions(obj.question[0].substring(3))}</p>
+                  ) : (
+                    <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
+                  )}
                 </h5>
               </div>
             </div>
             <div className="column">
-              <h4>{(state == 1) ? "Recommended Resources" : "Mark for Model Recommendation"}</h4>
+              <h4>
+                {state == 1 ? 'Recommended Resources' : 'Mark if Incorrect'}
+              </h4>
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
                   <ol>
-                    {(state == 1) ? <ol>{obj.resources.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
+                    {state == 1 ? (
+                      <ol>
+                        {obj.resources.map((obj) => displayResources(obj))}
+                      </ol>
+                    ) : (
+                      <input
+                        className="checkbox"
+                        type="checkbox"
+                        name={(id + 1).toString() + 'cMark'}
+                      ></input>
+                    )}
                   </ol>
                 </h5>
               </div>
@@ -229,19 +260,35 @@ function Home() {
         <div className="card-body">
           <div className="row">
             <div className="column">
-              <h4>{(state == 0) ? "Question" : "Related Questions Missed"}</h4>
+              <h4>{state == 0 ? 'Question' : 'Related Questions Missed'}</h4>
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
-                  {(state == 0) ? <p>{displayQuestions(obj.question[0].substring(3))}</p> : <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>}
+                  {state == 0 ? (
+                    <p>{displayQuestions(obj.question[0].substring(3))}</p>
+                  ) : (
+                    <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
+                  )}
                 </h5>
               </div>
             </div>
             <div className="column">
-              <h4>{(state == 1) ? "Recommended Resources" : "Mark for Model Recommendation"}</h4>
+              <h4>
+                {state == 1 ? 'Recommended Resources' : 'Mark if Incorrect'}
+              </h4>
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
                   <ol>
-                    {(state == 1) ? <ol>{obj.resources.map((obj) => displayResources(obj))}</ol> : <input className="checkbox" type="checkbox" name={(id + 1).toString() + "cMark"}></input>}
+                    {state == 1 ? (
+                      <ol>
+                        {obj.resources.map((obj) => displayResources(obj))}
+                      </ol>
+                    ) : (
+                      <input
+                        className="checkbox"
+                        type="checkbox"
+                        name={(id + 1).toString() + 'cMark'}
+                      ></input>
+                    )}
                   </ol>
                 </h5>
               </div>
@@ -278,62 +325,92 @@ function Home() {
             <img src={hunnidpng} width={250} />
             {!pdfText && !pdfQuestions && (
               <p className={'instructions'}>
-                Upload your assignment below or a single question you would like to know more about, and we&apos;ll recommend you study
-                materials that best suit your needs.
+                Upload your assignment below or a single question you would like
+                to know more about, and we&apos;ll recommend you study materials
+                that best suit your needs.
               </p>
             )}
             {pdfText && (
               <p className={'topic_instructions'}>
-                Below are some topics we think you should focus on. Click a
-                topic to see some related resources we recommend.
+                Below are some topics we think you should focus on. <br></br>{' '}
+                Click a topic to see some related resources we recommend.
               </p>
             )}
-            
+
             <div className="upload-section">
               {resourceArray && (
                 <div className="extracted-text-section ">
-                  {resourceArray.map((obj) => displaySingleQuestion(obj, obj.id))}
+                  {resourceArray.map((obj) =>
+                    displaySingleQuestion(obj, obj.id),
+                  )}
                 </div>
               )}
-              <form onSubmit={handleUploadedText}>
-
-                  <p className={'instructions'}> Input Question to Categorize:</p>
-                  <label>
-                    
-                    <textarea id="questionToCategorize" rows="4" cols="50">
-                    </textarea>
-                  </label>
-                <input type="submit" className="upload-file-button" value="Get Resources"/>
-              </form>
               {pdfQuestions && (
                 <div className="extracted-text-section">
-                  {pdfQuestions.map((obj) => displayTagQuestion(obj, obj.id, true, 0))}
+                  {pdfQuestions.map((obj) =>
+                    displayTagQuestion(obj, obj.id, true, 0),
+                  )}
                 </div>
               )}
 
               {pdfText && (
                 <div className="extracted-text-section">
-                  {pdfText.map((obj) => displayTagQuestion(obj, obj.id, false, 1))}
+                  {pdfText.map((obj) =>
+                    displayTagQuestion(obj, obj.id, false, 1),
+                  )}
                 </div>
               )}
-
-              {!pdfQuestions && (
-                <PdfUpload
-                  data-testid="FileUpload"
-                  accept=".pdf"
-                  updateFileCb={handleUploadedFile}
-                />)}
-
               {!pdfText && pdfQuestions && (
                 <div className="file-upload-container">
-
-                  <button type="submit" value="Submit" className="upload-file-button" onClick={handleQuestionSubmission}>
-                    <span>Send to Model</span>
+                  <button
+                    type="submit"
+                    value="Submit"
+                    className="upload-file-button"
+                    onClick={handleQuestionSubmission}
+                  >
+                    <span>Retrieve my resources</span>
                   </button>
-
                 </div>
               )}
-
+              <div className="container d-flex flex-column align-items-center">
+                <div className="row border-top">
+                  <div className="col-xl">
+                    <div className="text-upload-container">
+                      <form onSubmit={handleUploadedText}>
+                        <div className="form-group">
+                          <label className="p-1">Just one question?</label>
+                          <textarea
+                            className="form-control-sm"
+                            id="questionToCategorize"
+                            rows="4"
+                            cols="50"
+                            placeholder="Input question to categorize here:"
+                          ></textarea>
+                          <div className="p-2">
+                            <input
+                              type="submit"
+                              className="upload-text-button"
+                              value="Get Resources"
+                            />
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div className="col-xl">
+                    <div className="text-upload-container">
+                      <div className="form-group">
+                        <label className="p-1">Upload an assignment?</label>
+                        <PdfUpload
+                          data-testid="FileUpload"
+                          accept=".pdf"
+                          updateFileCb={handleUploadedFile}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}

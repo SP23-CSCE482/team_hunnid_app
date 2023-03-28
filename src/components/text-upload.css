@@ -1,20 +1,28 @@
-input[type=text] {
-    width: 100%;
-    height: 200px;
-    padding: 12px 20px;
-    box-sizing: border-box;
-  }
-
-input[type="submit"] {
-    display: block;
-    margin: auto;
+input[type='text'] {
+  width: 100%;
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
 }
 
-label{
-  text-align: center; 
+input[type='submit'] {
+  display: block;
+  margin: auto;
+}
+
+label {
+  text-align: center;
 }
 
 .Text-background {
-    color: white;
-  }
-  
+  color: white;
+}
+
+.text-upload-container {
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark_blue);
+  width: 80%;
+  margin: 25px auto;
+}
