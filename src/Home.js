@@ -11,7 +11,7 @@ const urlForText = BASE_API_URL + '/TextBoxToRecommendation'
 const urlreqQuestions = BASE_API_URL + '/reqQuestions'
 const urlreqResults = BASE_API_URL + '/reqResults'
 
-function Collapsible(props) {
+export function Collapsible(props) {
   const [isExpanded, setExpanded] = useState(props.curState)
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
   function handleOnClick() {
@@ -128,7 +128,60 @@ function Home() {
   const displayQuestions = (question) => {
     return <li>{question}</li>
   }
-
+  const displaySingleQuestion = (obj, id) => {
+    console.log(obj)
+    return id % 2 === 1 ? (
+      <Collapsible style={0} tag={obj.tag}>
+        <div className="card-body">
+          <div className="row">
+            <div className="column">
+              <h4>Related Questions Missed</h4>
+              <div className="smallcol">
+                <h5 className="result_card_text_secondary">
+                  <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
+                </h5>
+              </div>
+            </div>
+            <div className="column">
+              <h4>Recommended Resources</h4>
+              <div className="smallcol">
+                <h5 className="result_card_text_secondary">
+                  <ol>
+                    {obj.resources.map((obj) => displayResources(obj, obj.id))}
+                  </ol>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Collapsible>
+    ) : (
+      <Collapsible style={1} tag={obj.tag}>
+        <div className="card-body">
+          <div className="row">
+            <div className="column">
+              <h4>Related Questions Missed</h4>
+              <div className="smallcol">
+                <h5 className="result_card_text_primary">
+                  <ol>{obj.question.map((obj) => displayQuestions(obj))}</ol>
+                </h5>
+              </div>
+            </div>
+            <div className="column">
+              <h4>Recommended Resources</h4>
+              <div className="smallcol">
+                <h5 className="result_card_text_primary">
+                  <ol>
+                    {obj.resources.map((obj) => displayResources(obj, obj.id))}
+                  </ol>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Collapsible>
+    )
+  }
   const handleUploadedText = (event) => {
     // to clear existing cards
     setPdfText(null)
@@ -179,9 +232,7 @@ function Home() {
             </div>
             <div className="column">
               <h4>
-                {state == 1
-                  ? 'Recommended Resources'
-                  : 'Mark for Model Recommendation'}
+                {state == 1 ? 'Recommended Resources' : 'Mark if Incorrect'}
               </h4>
               <div className="smallcol">
                 <h5 className="result_card_text_secondary">
@@ -222,9 +273,7 @@ function Home() {
             </div>
             <div className="column">
               <h4>
-                {state == 1
-                  ? 'Recommended Resources'
-                  : 'Mark for Model Recommendation'}
+                {state == 1 ? 'Recommended Resources' : 'Mark if Incorrect'}
               </h4>
               <div className="smallcol">
                 <h5 className="result_card_text_primary">
@@ -296,21 +345,6 @@ function Home() {
                   )}
                 </div>
               )}
-              <form onSubmit={handleUploadedText}>
-                <p className={'instructions'}> Input Question to Categorize:</p>
-                <label>
-                  <textarea
-                    id="questionToCategorize"
-                    rows="4"
-                    cols="50"
-                  ></textarea>
-                </label>
-                <input
-                  type="submit"
-                  className="upload-file-button"
-                  value="Get Resources"
-                />
-              </form>
               {pdfQuestions && (
                 <div className="extracted-text-section">
                   {pdfQuestions.map((obj) =>
@@ -326,15 +360,6 @@ function Home() {
                   )}
                 </div>
               )}
-
-              {!pdfQuestions && (
-                <PdfUpload
-                  data-testid="FileUpload"
-                  accept=".pdf"
-                  updateFileCb={handleUploadedFile}
-                />
-              )}
-
               {!pdfText && pdfQuestions && (
                 <div className="file-upload-container">
                   <button
@@ -343,7 +368,7 @@ function Home() {
                     className="upload-file-button"
                     onClick={handleQuestionSubmission}
                   >
-                    <span>Send to Model</span>
+                    <span>Retrieve my resources</span>
                   </button>
                 </div>
               )}

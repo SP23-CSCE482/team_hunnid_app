@@ -96,6 +96,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -169,7 +170,7 @@
 }
 
 .result_card_primary {
-  margin: 20px 0 20px 0;
+  margin: 10px 0 10px 0;
   width: 1000px;
   flex-direction: row;
   align-items: center;
@@ -186,7 +187,7 @@
 }
 
 .result_card_secondary {
-  margin-top: 5px;
+  margin: 10px 0 10px 0;
   width: 1000px;
   flex-direction: column;
   align-items: center;
@@ -306,10 +307,10 @@ input[type='checkbox'] {
   -webkit-appearance: none;
   width: 40px;
   height: 40px;
-  background: rgb(172, 47, 47);
+  background: rgb(46, 141, 27);
   border-radius: 10px;
   border: 2px solid #000000;
 }
 input[type='checkbox']:checked {
-  background: rgb(46, 141, 27);
+  background: rgb(172, 47, 47);
 }
