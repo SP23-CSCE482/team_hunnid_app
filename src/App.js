@@ -1,4 +1,4 @@
-import './App.css'
+import './styles/App.css'
 import jwt_decode from 'jwt-decode'
 import * as React from 'react'
 import Home from './Home'

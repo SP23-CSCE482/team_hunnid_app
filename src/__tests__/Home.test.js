@@ -1,6 +1,12 @@
-import { render, screen, waitFor, getByTestId } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitFor,
+  getByTestId,
+  fireEvent,
+} from '@testing-library/react'
 import Home from '../Home'
-
+import { Collapsible } from '../Home'
 const testUser = {
   given_name: 'Daniel',
   name: 'Daniel Turpin',
@@ -20,7 +26,7 @@ describe('Home', () => {
 
   test('No user signed in, login is prompted', () => {
     const { getByText } = render(<Home isLoggedin={false} />)
-    waitFor(() => expect(getByText('please login')).toBeInTheDocument())
+    waitFor(() => expect(getByText('Login to get started')).toBeInTheDocument())
   })
 
   test('User is signed in, login is prompted', () => {
@@ -48,5 +54,42 @@ describe('Home', () => {
   test('User is not signed in, name is not displayed', () => {
     const { getByText } = render(<Home isLoggedin={false} />)
     waitFor(() => expect(getByText('Daniel')).not.toBeVisible())
+  })
+
+  test('User is signed in, instructions are included', () => {
+    const { getByText } = render(<Home isLoggedin={true} user={testUser} />)
+    waitFor(() =>
+      expect(
+        getByText('ll recommend you study materials that best suit your needs'),
+      ).toBeVisible(),
+    )
+    waitFor(() =>
+      expect(
+        getByText(
+          'Below are some topics we think you should focus on.',
+        ).not.toBeVisible(),
+      ),
+    )
+  })
+  test('User is signed in, recommendations are generated, buttons are available and work', () => {
+    const { getByText } = render(<Home isLoggedin={true} user={testUser} />)
+    waitFor(() =>
+      expect(
+        getByText('ll recommend you study materials that best suit your needs'),
+      ).not.toBeVisible(),
+    )
+    waitFor(() =>
+      expect(
+        getByText(
+          'Below are some topics we think you should focus on.',
+        ).toBeVisible(),
+      ),
+    )
+  })
+  test('Renders the collapsible component without crashing', () => {
+    render(<Collapsible style={1} tag={'Algebra'} />)
+    expect(screen.getByRole('button')).toHaveTextContent('Algebra')
+    expect(screen.getByRole('button')).not.toHaveTextContent('Algebradawd')
+    expect(screen.getByRole('button')).toBeInTheDocument()
   })
 })

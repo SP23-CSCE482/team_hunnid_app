@@ -67,6 +67,10 @@
   color: white;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
 .container {
   min-height: 100vh;
   padding: 0 0.5em;
@@ -83,6 +87,7 @@
 
 .upload-section {
   flex: 20%;
+  align-items: center;
 }
 
 .extracted-text-section {
@@ -90,6 +95,8 @@
   flex: 1;
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
 .title {
@@ -104,7 +111,7 @@
   margin: 10px;
 }
 .topic_instructions {
-  width: 800px;
+  width: 950px;
   text-align: center;
   margin: 10px;
 }
@@ -163,7 +170,7 @@
 }
 
 .result_card_primary {
-  margin: 20px 0 20px 0;
+  margin: 10px 0 10px 0;
   width: 1000px;
   flex-direction: row;
   align-items: center;
@@ -180,7 +187,7 @@
 }
 
 .result_card_secondary {
-  margin-top: 5px;
+  margin: 10px 0 10px 0;
   width: 1000px;
   flex-direction: column;
   align-items: center;
@@ -211,8 +218,43 @@
   overflow-wrap: break-word;
   width: 50%;
 }
+.padvertical {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.text-upload-container {
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dark_blue);
+  width: 80%;
+  margin: 25px auto;
+}
 .smallcol {
   overflow-wrap: break-word;
+}
+
+.upload-text-button {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: var(--peach);
+  border: 2px solid var(--brown);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--brown);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 250ms ease-in-out;
+  font-family: 'Roboto Mono', monospace;
+  display: flex;
+  padding: 1.1em 2.8em;
+  margin: 0 auto;
 }
 
 .upload-file-button {
@@ -236,4 +278,39 @@
   display: flex;
   padding: 1.1em 2.8em;
   margin: 0 auto;
+}
+
+.upload-file-button {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: var(--peach);
+  border: 2px solid var(--brown);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 6px;
+  color: var(--brown);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 250ms ease-in-out;
+  font-family: 'Roboto Mono', monospace;
+  display: flex;
+  padding: 1.1em 2.8em;
+  margin: 0 auto;
+}
+
+input[type='checkbox'] {
+  -webkit-appearance: none;
+  width: 40px;
+  height: 40px;
+  background: rgb(46, 141, 27);
+  border-radius: 10px;
+  border: 2px solid #000000;
+}
+input[type='checkbox']:checked {
+  background: rgb(172, 47, 47);
 }
