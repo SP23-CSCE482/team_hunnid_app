@@ -7,7 +7,6 @@ import TextUpload from './components/textUpload'
 
 import useCollapse from 'react-collapsed'
 import { BASE_API_URL } from './utils/constants'
-import { is } from '@babel/types'
 const urlForText = BASE_API_URL + '/TextBoxToRecommendation'
 const urlreqQuestions = BASE_API_URL + '/reqQuestions'
 const urlreqResults = BASE_API_URL + '/reqResults'
@@ -15,6 +14,8 @@ const urlreqResults = BASE_API_URL + '/reqResults'
 export function Collapsible(props) {
   const [isExpanded, setExpanded] = useState(props.curState)
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
+  let tagText = props.tag.replace('_', ' ')
+
   function handleOnClick() {
     setExpanded(!isExpanded)
   }
@@ -24,7 +25,7 @@ export function Collapsible(props) {
         className="card-header"
         {...getToggleProps({ onClick: handleOnClick })}
       >
-        {props.tag}
+        {tagText}
       </div>
       <div {...getCollapseProps()}>
         <div className="content">{props.children}</div>
@@ -36,7 +37,7 @@ export function Collapsible(props) {
         className="card-header"
         {...getToggleProps({ onClick: handleOnClick })}
       >
-        {props.tag}
+        {tagText}
       </div>
       <div {...getCollapseProps()}>
         <div className="content">{props.children}</div>
