@@ -8,11 +8,11 @@ function Instructions() {
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
   return (
-    <div data-testid="home-1" className="App-background">
-      <div data-testid="home-2" className="App-header">
+    <div data-testid="instructions-1" className="App-background">
+      <div data-testid="instructions-2" className="App-header">
         {!isLoggedin && (
           <div className={'d-flex flex-column align-items-center py-5'}>
-            <img src={hunnidpng} width={250} />
+            <img src={hunnidpng} data-testid="hunnidlogodefault" width={250} />
             <h2
               data-testid="welcome"
               className={'text-center font-weight-bold'}
@@ -30,7 +30,7 @@ function Instructions() {
             >
               Howdy {user.given_name}!
             </h2>
-            <img src={hunnidpng} width={250} />
+            <img src={hunnidpng} width={250} data-testid="hunnidlogo" />
             <div className="instructions">
               Hunnid supports the below two methods of finding resources for
               Calculus-based questions.

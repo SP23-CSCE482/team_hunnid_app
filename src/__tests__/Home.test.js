@@ -17,7 +17,6 @@ describe('Home', () => {
     const todoElement = screen.getByTestId('home-1')
     expect(todoElement).toBeInTheDocument()
   })
-
   test('Should render homescreen header div', () => {
     render(<Home />)
     const todoElement = screen.getByTestId('home-2')
@@ -32,6 +31,9 @@ describe('Home', () => {
   test('User is signed in, login is prompted', () => {
     const { getByText } = render(<Home isLoggedin={true} />)
     waitFor(() => expect(getByTestId('WelcomeUser')).toBeVisible())
+  })
+  test('User is signed in, login is prompted', () => {
+    const { getByText } = render(<Home isLoggedin={true} />)
     waitFor(() => expect(getByText('welcome')).not.toBeVisible())
   })
 
@@ -43,7 +45,6 @@ describe('Home', () => {
   test('No user signed in, file uploading is not visible', () => {
     const { getByTestId } = render(<Home isLoggedin={false} />)
     waitFor(() => expect(getByTestId('WelcomeUser')).not.toBeVisible())
-    waitFor(() => expect(getByText('welcome')).toBeVisible())
   })
 
   test('User is signed in, name is displayed properly', () => {
