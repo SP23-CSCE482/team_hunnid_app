@@ -67,10 +67,20 @@ const findResourcesByTagThroughWebscraping = async (req, res, next) => {
     num: 5,
     siteSearch: 'edu',
     fileType: 'pdf,html',
-    excludeTerms: 'syllabus|schedule|catalog|unix'
+    excludeTerms: 'syllabus|schedule|catalog|unix|people'
   });
-  
-  const urls = result.data.items.map(item => item.link);
+
+  const urls = []
+
+  for (const item of result.data.items) {
+    const response = await fetch(item.link);
+    const content = await response.text();
+    if (!content.toLowerCase().includes('syllabus')) {
+      urls.push(item.link);
+    }
+  }
+
+  // const urls = result.data.items.map(item => item.link);
   res.json(urls);
 };
 
