@@ -58,6 +58,9 @@ const findResourcesByTag = (req, res, next) => {
 const findResourcesByTagThroughWebscraping = async (req, res, next) => {
   let tagToSearch = req.params.tag; // will filter using the tags
   let searchTerm = 'introduction to calculus for beginners ';
+  if(tagToSearch == 'Limit') {
+    tagToSearch = 'Limits';
+  }
   searchTerm += tagToSearch;
   console.log(searchTerm);
   const result = await customsearch.cse.list({
