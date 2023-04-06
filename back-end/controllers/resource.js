@@ -64,12 +64,23 @@ const findResourcesByTagThroughWebscraping = async (req, res, next) => {
     auth: 'AIzaSyA2wIoZU7sdNoPRgPHt3b62TwX1aixZI4I',
     cx: '31a4cf3e6f4b741a6',
     q: searchTerm,
-    num: 10,
+    num: 5,
     siteSearch: 'edu',
-    fileType: 'pdf,html'
+    fileType: 'pdf,html',
+    excludeTerms: 'syllabus|schedule|catalog|unix|people'
   });
-  
-  const urls = result.data.items.map(item => item.link);
+
+  const urls = []
+
+  for (const item of result.data.items) {
+    const response = await fetch(item.link);
+    const content = await response.text();
+    if (!content.toLowerCase().includes('syllabus')) {
+      urls.push(item.link);
+    }
+  }
+
+  // const urls = result.data.items.map(item => item.link);
   res.json(urls);
 };
 
@@ -85,7 +96,7 @@ const findVideoResources = (req, res, next) => {
     part: 'snippet',
     type: 'video',
     q: searchQuery,
-    maxResults: 5
+    maxResults: 10
   })
   .then((response) => {
     // Extract the video data from the API response
@@ -131,7 +142,8 @@ async function findAllResources(req, res) {
     const data2 = await result2.json();
     console.log('Data from API call 2:', data2[0,2]);
     // Process the results
-    const combinedData =data1.concat(data2);
+    let combinedData =data1.concat(data2);
+    combinedData = combinedData.slice(0, 10);
     console.log('Combined Data is: '+combinedData)
     res.json(combinedData);
   } catch (error) {
