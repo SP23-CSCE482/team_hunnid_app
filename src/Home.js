@@ -14,6 +14,8 @@ const urlreqResults = BASE_API_URL + '/reqResults'
 export function Collapsible(props) {
   const [isExpanded, setExpanded] = useState(props.curState)
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded })
+  let tagText = props.tag.replace('_', ' ')
+
   function handleOnClick() {
     setExpanded(!isExpanded)
   }
@@ -23,7 +25,7 @@ export function Collapsible(props) {
         className="card-header"
         {...getToggleProps({ onClick: handleOnClick })}
       >
-        {props.tag}
+        {tagText}
       </div>
       <div {...getCollapseProps()}>
         <div className="content">{props.children}</div>
@@ -35,7 +37,7 @@ export function Collapsible(props) {
         className="card-header"
         {...getToggleProps({ onClick: handleOnClick })}
       >
-        {props.tag}
+        {tagText}
       </div>
       <div {...getCollapseProps()}>
         <div className="content">{props.children}</div>
@@ -50,11 +52,13 @@ function Home() {
   const [pdfText, setPdfText] = useState(null)
   const [resourceArray, setResourceArray] = useState(null)
   const [pdfQuestions, setPdfQuestions] = useState(null)
+  const [isLoading, setLoading] = useState(false)
   const user = useContext(UserContext)
   const isLoggedin = user ? Object.keys(user).length != 0 : null
 
   const handleUploadedFile = (file) => {
     // to clear existing cards
+    setLoading(true)
     setResourceArray(null)
     let formData = new FormData()
     formData.append('pdf', file[0], file[0].name)
@@ -71,11 +75,13 @@ function Home() {
       .then((result) => {
         setPdfText(null)
         setPdfQuestions(JSON.parse(result).data)
+        setLoading(false)
       })
       .catch((error) => console.log('error', error))
   }
 
   const handleQuestionSubmission = (file) => {
+    setLoading(true)
     let formData = new FormData()
 
     let temp = document.getElementsByClassName('checkbox')
@@ -99,6 +105,7 @@ function Home() {
       .then((response) => response.text())
       .then((result) => {
         setPdfQuestions(null)
+        setLoading(false)
         console.log('Here')
         setPdfText(JSON.parse(result).data)
       })
@@ -185,7 +192,7 @@ function Home() {
   const handleUploadedText = (event) => {
     // to clear existing cards
     setPdfText(null)
-
+    setLoading(true)
     event.preventDefault()
     let formData = new FormData()
     formData.append(
@@ -202,6 +209,7 @@ function Home() {
       .then((result) => {
         const parsedResult = JSON.parse(result)
         console.log(parsedResult.data)
+        setLoading(false)
         console.log(Array.isArray(parsedResult.data))
         setResourceArray([parsedResult])
         console.log(resourceArray)
@@ -360,6 +368,12 @@ function Home() {
                   )}
                 </div>
               )}
+              {isLoading && (
+                <div className="spinner-div">
+                  <div className="spinner"></div>
+                </div>
+              )}
+
               {!pdfText && pdfQuestions && (
                 <div className="file-upload-container">
                   <button

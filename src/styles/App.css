@@ -133,6 +133,12 @@
   width: 150px;
   float: right;
   margin: 10px;
+  transition-duration: 0.3s;
+}
+.signOutButton:hover {
+  background-color: var(--brown);
+  border: 2px solid var(--peach);
+  color: var(--peach);
 }
 .card {
   width: 250px;
@@ -230,10 +236,53 @@
   width: 80%;
   margin: 25px auto;
 }
+.instructions-col {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--forest_green);
+  color: var(--peach);
+  border: 3px solid var(--peach);
+  border-radius: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.instructions-title {
+  color: white;
+  align-self: center;
+  padding-left: ($spacer * 0.5) !important;
+  padding-right: ($spacer * 0.5) !important;
+}
+.instructions-content {
+  padding-left: ($spacer * 0.5) !important;
+  padding-right: ($spacer * 0.5) !important;
+  margin: 1px 10px 1px 10px;
+  font-size: 20px;
+}
 .smallcol {
   overflow-wrap: break-word;
 }
+img {
+  border-radius: 10px;
+}
+.img-div {
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
+  display: block;
+  padding-left: ($spacer * 0.5) !important;
+  padding-right: ($spacer * 0.5) !important;
+}
+.instructions-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 80%;
 
+  border-radius: 6px;
+  margin: 5px 0px 50px 0px;
+}
 .upload-text-button {
   box-sizing: border-box;
   appearance: none;
@@ -255,6 +304,13 @@
   display: flex;
   padding: 1.1em 2.8em;
   margin: 0 auto;
+  transition-duration: 0.3s;
+}
+
+.upload-text-button:hover {
+  background-color: var(--brown);
+  color: var(--peach);
+  border: 2px solid var(--peach);
 }
 
 .upload-file-button {
@@ -278,29 +334,13 @@
   display: flex;
   padding: 1.1em 2.8em;
   margin: 0 auto;
+  transition-duration: 0.3s;
 }
 
-.upload-file-button {
-  box-sizing: border-box;
-  appearance: none;
-  background-color: var(--peach);
-  border: 2px solid var(--brown);
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1;
-  text-align: center;
-  text-transform: uppercase;
-  font-weight: 700;
-  border-radius: 6px;
-  color: var(--brown);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  transition: color 250ms ease-in-out;
-  font-family: 'Roboto Mono', monospace;
-  display: flex;
-  padding: 1.1em 2.8em;
-  margin: 0 auto;
+.upload-file-button:hover {
+  background-color: var(--brown);
+  color: var(--peach);
+  border: 2px solid var(--peach);
 }
 
 input[type='checkbox'] {
@@ -313,4 +353,32 @@ input[type='checkbox'] {
 }
 input[type='checkbox']:checked {
   background: rgb(172, 47, 47);
+}
+
+.spinner-div {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: var(--peach) transparent var(--peach) transparent;
+  border-radius: 50%;
+  animation: spin-anim 1.2s linear infinite;
+  margin: 0px 0px 30px 0px;
+  align-self: center;
+}
+
+@keyframes spin-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
