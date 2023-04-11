@@ -61,6 +61,9 @@ const findResourcesByTagThroughWebscraping = async (req, res, next) => {
   if(tagToSearch == 'Limit') {
     tagToSearch = 'Limits';
   }
+  if(tagToSearch == 'Vector_Functions'){
+    tagToSearch = 'Vector Functions';
+  }
   searchTerm += tagToSearch;
   console.log(searchTerm);
   const result = await customsearch.cse.list({
