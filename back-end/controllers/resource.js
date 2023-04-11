@@ -70,7 +70,7 @@ const findResourcesByTagThroughWebscraping = async (req, res, next) => {
     num: 5,
     siteSearch: 'edu',
     fileType: 'pdf,html',
-    excludeTerms: 'syllabus|schedule|catalog|unix|people'
+    excludeTerms: 'syllabus|schedule|catalog|unix|people|course'
   });
 
   const urls = []
