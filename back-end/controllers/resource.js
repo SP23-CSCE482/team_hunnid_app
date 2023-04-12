@@ -57,29 +57,41 @@ const findResourcesByTag = (req, res, next) => {
 //GET '/resource/findByTagThroughWebscraping/:tag'
 const findResourcesByTagThroughWebscraping = async (req, res, next) => {
   let tagToSearch = req.params.tag; // will filter using the tags
-  let searchTerm = 'introduction to calculus for beginners ';
+  let searchTerm = 'introduction to ';
   if(tagToSearch == 'Limit') {
     tagToSearch = 'Limits';
   }
+  if(tagToSearch == 'Vector_Functions'){
+    tagToSearch = 'Vector Functions';
+  }
+  if(tagToSearch == 'Parametric_Equations'){
+    tagToSearch = 'Parametric Equations';
+  }
   searchTerm += tagToSearch;
+  searchTerm += ' in calculus for beginners'
   console.log(searchTerm);
   const result = await customsearch.cse.list({
     auth: 'AIzaSyA2wIoZU7sdNoPRgPHt3b62TwX1aixZI4I',
     cx: '31a4cf3e6f4b741a6',
-    q: searchTerm,
-    num: 5,
+    q: `${searchTerm} -site:www.collegeofthedesert.edu -site:math.utahtech.edu`,
+    num: 10,
     siteSearch: 'edu',
     fileType: 'pdf,html',
-    excludeTerms: 'syllabus|schedule|catalog|unix|people'
+    excludeTerms: 'syllabus|schedule|catalog|unix|people|course|certificate|digitalcommons'
   });
 
   const urls = []
 
   for (const item of result.data.items) {
-    const response = await fetch(item.link);
-    const content = await response.text();
-    if (!content.toLowerCase().includes('syllabus')) {
-      urls.push(item.link);
+    try {
+      const response = await fetch(item.link);
+      const content = await response.text();
+      if (!content.toLowerCase().includes('syllabus') || !content.match(/department/i)|| !content.match(/acedemic/i)) {
+        urls.push(item.link);
+      }
+    } catch (e) {
+      console.log(`Error occurred while requesting ${item.link}: ${e}`);
+      continue;
     }
   }
 
@@ -145,8 +157,11 @@ async function findAllResources(req, res) {
     const data2 = await result2.json();
     console.log('Data from API call 2:', data2[0,2]);
     // Process the results
-    let combinedData =data1.concat(data2);
-    combinedData = combinedData.slice(0, 10);
+    const slicedData1 = data1.slice(0, 5);
+    const slicedData2 = data2.slice(0, 5);
+
+    // Combine the results
+    const combinedData = slicedData1.concat(slicedData2);
     console.log('Combined Data is: '+combinedData)
     res.json(combinedData);
   } catch (error) {
