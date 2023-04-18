@@ -36,6 +36,15 @@
 .App-background {
   background-color: var(--dark_blue);
 }
+
+.loginButtonDiv {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  right: 50%;
+  left: 50%;
+  top: 50%;
+}
 .signOutDiv {
   background-color: var(--dark_blue);
   flex-direction: row-reverse;
