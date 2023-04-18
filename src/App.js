@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode'
 import * as React from 'react'
 import Home from './Home'
 import { useEffect, useState } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 
 import UserContext from './components/user'
 import Instructions from './Instructions'
@@ -53,10 +53,9 @@ function App() {
     <UserContext.Provider value={user}>
       <div
         id="signInDiv"
-        className="App-background"
+        className="loginButtonDiv"
         data-testid="signInDiv"
       ></div>
-
       {Object.keys(user).length != 0 && ( // signed in
         <div className="App-background" data-testid="signedin">
           <button
