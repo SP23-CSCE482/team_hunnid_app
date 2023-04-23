@@ -43,5 +43,6 @@ When you're finished with the changes, create a pull request, also known as a PR
 - If you run into any merge issues, checkout this [git tutorial](https://github.com/skills/resolve-merge-conflicts) to help you resolve merge conflicts and other issues.
 
 ### Your PR is merged!
+Thank you so much for the help!
 
 Once your PR is merged, your contributions will be publicly visible on the [Hunnid App](https://hunnid-app.herokuapp.com/)
