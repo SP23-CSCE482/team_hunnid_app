@@ -6,12 +6,7 @@ In this guide you will get an overview of the contribution workflow from opening
 
 ## New contributor guide
 
-To get an overview of the project, read the [README](README.md). Here are some resources to help you get started with open source contributions:
-
-- [Finding ways to contribute to open source on GitHub](https://docs.github.com/en/get-started/exploring-projects-on-github/finding-ways-to-contribute-to-open-source-on-github)
-- [Set up Git](https://docs.github.com/en/get-started/quickstart/set-up-git)
-- [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow)
-- [Collaborating with pull requests](https://docs.github.com/en/github/collaborating-with-pull-requests)
+To get an overview of the project, read the [README](README.md).
 
 ## Getting started
 
@@ -29,7 +24,7 @@ To get an overview of the project, read the [README](README.md). Here are some r
 - Using the command line:
   - [Fork the repo](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo#fork-an-example-repository) so that you can make your changes without affecting the original project until you're ready to merge them.
 
-2. Please refer to the [README](https://github.com/SP23-CSCE482/team_hunnid_app/blob/main/README.md) for installation detals details.
+2. Please refer to the [README](README.md) for installation detals details.
 
 3. Create a working branch and start with your changes!
 
