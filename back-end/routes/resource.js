@@ -5,8 +5,6 @@ const multer = require('multer');
 const upload = multer();
 
 //Read
-router.get('/resource/findByTag/:tag', resourceController.findResourcesByTag);
-
 router.get('/resource/findByTagThroughWebscraping/:tag', resourceController.findResourcesByTagThroughWebscraping);
 
 router.get('/resource/findVideoResources/:tag', resourceController.findVideoResources);

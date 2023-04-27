@@ -50,6 +50,7 @@ Collapsible.defaultProps = {
 }
 function Home() {
   const [pdfText, setPdfText] = useState(null)
+  const [errorText, setErrorText] = useState(null)
   const [resourceArray, setResourceArray] = useState(null)
   const [pdfQuestions, setPdfQuestions] = useState(null)
   const [isLoading, setLoading] = useState(false)
@@ -74,7 +75,14 @@ function Home() {
       .then((response) => response.text())
       .then((result) => {
         setPdfText(null)
-        setPdfQuestions(JSON.parse(result).data)
+        let  tempData = JSON.parse(result).data
+        if (tempData.length == 0){
+          setPdfQuestions(null)
+          setErrorText("Sorry, but the pdf you have submitted isn't format-compatible. Instructions may help if you have further questions. ")
+        } else {
+          setPdfQuestions(JSON.parse(result).data)
+          setErrorText(null)
+        }
         setLoading(false)
       })
       .catch((error) => console.log('error', error))
@@ -105,6 +113,7 @@ function Home() {
       .then((response) => response.text())
       .then((result) => {
         setPdfQuestions(null)
+        setErrorText(null)
         setLoading(false)
         console.log('Here')
         setPdfText(JSON.parse(result).data)
@@ -192,6 +201,7 @@ function Home() {
   const handleUploadedText = (event) => {
     // to clear existing cards
     setPdfText(null)
+    setErrorText(null)
     setLoading(true)
     event.preventDefault()
     let formData = new FormData()
@@ -333,10 +343,13 @@ function Home() {
             <img src={hunnidpng} width={250} />
             {!pdfText && !pdfQuestions && (
               <p className={'instructions'}>
-                Upload your assignment below or a single question you would like
-                to know more about, and we&apos;ll recommend you study materials
-                that best suit your needs.
-              </p>
+              {errorText}
+
+              Upload your assignment below or a single question you would like
+              to know more about, and we&apos;ll recommend you study materials
+              that best suit your needs.
+            </p>
+            
             )}
             {pdfText && (
               <p className={'topic_instructions'}>

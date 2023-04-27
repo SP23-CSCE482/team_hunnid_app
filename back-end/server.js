@@ -123,19 +123,6 @@ app.post('/pdfToText', async (req, res) => {
               data = JSON.parse(data)
               let itr = 0
               for (elem in data) {
-                // request({
-                //     url: recommendationURL2+tag, //on 3000 put your port no.
-                //     method: 'GET',
-                // }, function (error, response, body) {
-                //     console.log({body: body});
-                //     res.send({
-                //         id: Math.round(Math.random()), //done so the card can be either of style choice
-                //         status: true,
-                //         resources:  JSON.parse(body),
-                //         tag: tag,
-                //         question: [textArray]
-                //     });
-                // });
                 const result = await fetch(recommendationURL2 + elem)
                 if (!result.ok) {
                   throw new Error('API call 2 failed')
@@ -186,13 +173,9 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
       const pyProg = spawn('python', ['./modelQueryForPlainText.py', textArray])
 
       pyProg.stdout.on('data', async function (data) {
-        //console.log(data.toString());
         console.log('Success Child Process : ', data.toString())
         tag = data.toString()
         console.log('Tag is:' + tag)
-        // findResourcesByTag(tag, function(result){
-        //     console.log(result)
-        // });
         console.log('Url is: ' + recommendationURL + tag)
         request(
           {
@@ -210,18 +193,6 @@ app.post('/TextBoxToRecommendation', async (req, res) => {
             })
           },
         )
-
-        // const reccURL = await fetch({
-        //     url: recommendationURL, //on 3000 put your port no.
-        //     method: 'GET',
-        //     json: {
-        //         template: template.toLowerCase(),
-        //         obj: tag
-        //     }
-        // }, function (error, response, body) {
-        //     console.log({error: error, response: response, body: body});
-        // });
-        // console.log(typeof reccURL)
       })
     } catch (err) {
       console.log('Failed Child Process : ', err)
